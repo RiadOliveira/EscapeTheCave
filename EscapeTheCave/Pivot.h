@@ -1,40 +1,21 @@
-/**********************************************************************************
-// Pivot (Arquivo de Cabeçalho)
-// 
-// Criação:     01 Jan 2013
-// Atualização: 04 Mar 2023
-// Compilador:  Visual C++ 2022
-//
-// Descrição:   Ponto de mudança de direção para o jogador e fantasmas
-//
-**********************************************************************************/
+#ifndef _ESCAPETHECAVE_PIVOT_H_
+#define _ESCAPETHECAVE_PIVOT_H_
 
-#ifndef _PACMAN_PIVOT_H_
-#define _PACMAN_PIVOT_H_
+#include "Types.h"                         
+#include "Object.h"                        
 
-// ---------------------------------------------------------------------------------
-// Inclusões
+class Pivot : public Object {
+    public:
+        bool left  = false;
+        bool right = false;
+        bool up    = false;
+        bool down  = false;
 
-#include "Types.h"                          // tipos específicos da engine
-#include "Object.h"                         // interface de Object
+        Pivot(bool l, bool r, bool u, bool d);
+        ~Pivot(); 
 
-// ---------------------------------------------------------------------------------
-
-class Pivot : public Object
-{
-public:
-    bool left  = false;                     // passagem livre a esquerda
-    bool right = false;                     // passagem livre a direita
-    bool up    = false;                     // passagem livre para cima
-    bool down  = false;                     // passagem livre para baixo
-
-    Pivot(bool l, bool r, bool u, bool d);  // construtor
-    ~Pivot();                               // destrutor
-
-    void Update() {};                       // atualização
-    void Draw() {};                         // desenho
+        void Update() {};
+        void Draw() {};
 };
-
-// ---------------------------------------------------------------------------------
 
 #endif

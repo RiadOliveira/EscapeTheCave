@@ -30,7 +30,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{E790FA02-70B4-455F-8174-253F45651C7F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PacMan</RootNamespace>
+    <RootNamespace>EscapeTheCave</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>EscapeTheCave</ProjectName>
   </PropertyGroup>
@@ -258,6 +258,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Stone.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Stone.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Types.h" />

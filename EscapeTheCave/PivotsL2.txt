@@ -1,11 +1,3 @@
-// PacMan
-// Criação:     01 Jan 2013
-// Atualização: 25 Ago 2021
-// Descrição:   Nível 2 (Pivôs)
-//
-// Informações dos pivôs:
-// left right up down posX posY
-
 // linha 1
 1 1 0 1 73 87
 1 0 0 1 254 87

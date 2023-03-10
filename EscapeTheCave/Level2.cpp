@@ -1,14 +1,3 @@
-/**********************************************************************************
-// Level2 (Código Fonte) 
-// 
-// Criação:     18 Jan 2013
-// Atualização: 04 Mar 2023
-// Compilador:  Visual C++ 2022
-//
-// Descrição:   Nível 2 do jogo PacMan
-//
-**********************************************************************************/
-
 #include "Engine.h"
 #include "Home.h"
 #include "Level2.h"
@@ -19,93 +8,57 @@
 using std::ifstream;
 using std::string;
 
-// ------------------------------------------------------------------------------
-
-void Level2::Init()
-{
-    // cria gerenciador de cena
+void Level2::Init() {
     scene = new Scene();
 
-    // cria background
-    backg = new Sprite("Resources/Level2.jpg");
-
-    // cria jogador
     Player * player = new Player();
     scene->Add(player, MOVING);
 
-    // cria pontos de mudança de direção
     Pivot * pivot;
     bool left, right, up, down;
     float posX, posY;
     ifstream fin;
 
-    // cria pivôs a partir do arquivo
     fin.open("PivotsL2.txt");
     fin >> left;
-    while (!fin.eof())
-    {
-        if (fin.good())
-        {
-            // lê linha de informações do pivô
+
+    while (!fin.eof()) {
+        if (fin.good()) {
             fin >> right; fin >> up; fin >> down; fin >> posX; fin >> posY;
             pivot = new Pivot(left, right, up, down);
             pivot->MoveTo(posX, posY);
             scene->Add(pivot, STATIC);
-        }
-        else
-        {
-            // ignora comentários
+        } else {
             fin.clear();
             char temp[80];
             fin.getline(temp, 80);
         }
+        
         fin >> left;
     }
     fin.close();
 }
 
-// ------------------------------------------------------------------------------
-
-void Level2::Finalize()
-{
+void Level2::Finalize() {
     delete backg;
     delete scene;
 }
 
-// ------------------------------------------------------------------------------
-
-void Level2::Update()
-{
-    // habilita/desabilita bounding box
-    if (window->KeyPress('B'))
-    {
+void Level2::Update() {
+    if (window->KeyPress('B')) {
         viewBBox = !viewBBox;
     }
 
-    if (window->KeyPress(VK_ESCAPE))
-    {
-        // volta para a tela de abertura
+    if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
-    }
-    else
-    {
-        // atualiza cena
+    } else {
         scene->Update();
         scene->CollisionDetection();
     }
 }
 
-// ------------------------------------------------------------------------------
-
-void Level2::Draw()
-{
-    // desenha cena
-    backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+void Level2::Draw() {
     scene->Draw();
 
-    // desenha bounding box dos objetos
-    if (viewBBox)
-        scene->DrawBBox();
+    if (viewBBox) scene->DrawBBox();
 }
-
-// ------------------------------------------------------------------------------
