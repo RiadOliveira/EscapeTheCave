@@ -9,14 +9,17 @@ enum PLAYERSTATE {UP, DOWN, LEFT, RIGHT, NONE};
 
 class Player : public Object {
     private:
+        float maxEnergy = 100.0f;
+
         Sprite * spriteUp = nullptr;
         Sprite * spriteDown = nullptr;
         Sprite * spriteLeft = nullptr;
         Sprite * spriteRight = nullptr;
 
-        int spriteSize;
+        float spriteSize;
+        float speed = 120.0f;
+        float energy = 100.0f;
         PLAYERSTATE state;
-        float speed = 160.0f;
 
         PLAYERSTATE GetStateBasedOnWindowKey();
         void HandleMovePlayer(PLAYERSTATE updatedState);
@@ -25,8 +28,10 @@ class Player : public Object {
         Player();
         ~Player();
 
-        int SpriteSize();
+        float SpriteSize();
         PLAYERSTATE State();
+        float Energy();
+        float MaxEnergy();
 
         void OnCollision(Object * obj);
         void StoneCollision(Object * obj);
@@ -35,7 +40,10 @@ class Player : public Object {
         void Draw();
 };
 
-inline int Player::SpriteSize() { return spriteSize; }
+inline float Player::SpriteSize() { return spriteSize; }
+inline float Player::Energy() { return energy; }
+inline float Player::MaxEnergy() { return maxEnergy; }
+
 inline PLAYERSTATE Player::State() { return state; }
 
 #endif

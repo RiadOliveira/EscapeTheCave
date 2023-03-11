@@ -37,7 +37,7 @@ void Player::StoneCollision(Object * obj) {
     switch(state) {
         case UP:
         case DOWN: {
-            float directionModifier = 
+            int directionModifier = 
                 spriteSize * (state == UP ? 1 : -1);
 
             MoveTo(x, stone->Y() + directionModifier);
@@ -46,7 +46,7 @@ void Player::StoneCollision(Object * obj) {
 
         case LEFT:
         case RIGHT: {
-            float directionModifier = 
+            int directionModifier = 
                 spriteSize * (state == LEFT ? 1 : -1);
 
             MoveTo(stone->X() + directionModifier, y);
@@ -64,7 +64,7 @@ PLAYERSTATE Player::GetStateBasedOnWindowKey() {
 }
 
 void Player::VerifyAndMovePlayerIfExceededWindow() {
-    int halfSpriteSize = spriteSize/2;
+    float halfSpriteSize = spriteSize/2;
 
     int windowWidth = window->Width();
     if (x - halfSpriteSize < 0) {
@@ -117,6 +117,7 @@ void Player::HandleMovePlayer(PLAYERSTATE updatedState) {
 
 void Player::Update() {
     HandleMovePlayer(GetStateBasedOnWindowKey());
+    if(energy > 0) energy -= 0.05;
 }
 
 void Player::Draw() {

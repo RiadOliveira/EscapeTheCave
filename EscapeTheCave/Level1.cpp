@@ -6,7 +6,7 @@
 #include "Pivot.h"
 #include "Stone.h"
 #include "MiningPoint.h"
-#include <cmath>
+#include "Battery.h"
 using std::ifstream;
 using std::string;
 
@@ -56,6 +56,9 @@ void Level1::Init() {
 
     MiningPoint * miningPoint = new MiningPoint(player);
     scene->Add(miningPoint, MOVING);
+
+    Battery * battery = new Battery(player);
+    scene->Add(battery, STATIC);
 
     RenderLevelStones();
 }

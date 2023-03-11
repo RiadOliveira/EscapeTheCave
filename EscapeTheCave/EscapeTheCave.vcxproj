@@ -243,6 +243,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Battery.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EscapeTheCave.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -265,6 +266,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Battery.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EscapeTheCave.h" />
     <ClInclude Include="Game.h" />
