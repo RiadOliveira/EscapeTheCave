@@ -11,6 +11,11 @@ class Level1 : public Game {
         Scene * scene = nullptr;
         Image * stoneImage = nullptr;
         bool viewBBox = false;
+
+        void RenderLevelStones();
+        void CreateLevelStone(
+            int positionX, int positionY
+        );
     public:
         void Init();
         void Update();

@@ -5,13 +5,22 @@
 #include "Object.h"
 #include "Sprite.h"
 
-enum PLAYERSTATE {UP, DOWN, LEFT, RIGHT};    
+enum PLAYERSTATE {UP, DOWN, LEFT, RIGHT, NONE};    
 
 class Player : public Object {
     private:
-        Sprite * sprite = nullptr;
-        PLAYERSTATE state = UP;
+        Sprite * spriteUp = nullptr;
+        Sprite * spriteDown = nullptr;
+        Sprite * spriteLeft = nullptr;
+        Sprite * spriteRight = nullptr;
+
+        int spriteSize;
+        PLAYERSTATE state;
         float speed = 200.0f;
+
+        PLAYERSTATE GetStateBasedOnWindowKey();
+        void HandleMovePlayer(PLAYERSTATE updatedState);
+        void VerifyAndMovePlayerIfExceededWindow();
     public:
         Player();
         ~Player();
@@ -21,6 +30,12 @@ class Player : public Object {
 
         void Update();
         void Draw();
+
+        PLAYERSTATE State();
+        int SpriteSize();
 };
+
+inline PLAYERSTATE Player::State() { return state; }
+inline int Player::SpriteSize() { return spriteSize; }
 
 #endif
