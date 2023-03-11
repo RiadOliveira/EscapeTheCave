@@ -1,15 +1,14 @@
 #include "EscapeTheCave.h"
 #include "Player.h"
-#include "Pivot.h"
-#include <string>
+#include "Stone.h"
 
 Player::Player() {
-    spriteUp = new Sprite("Resources/playerUp.jpg");
-    spriteDown = new Sprite("Resources/playerDown.jpg");
-    spriteLeft = new Sprite("Resources/playerLeft.jpg");
-    spriteRight = new Sprite("Resources/playerRight.jpg");
+    spriteUp = new Sprite("Resources/PlayerUp.jpg");
+    spriteDown = new Sprite("Resources/PlayerDown.jpg");
+    spriteLeft = new Sprite("Resources/PlayerLeft.jpg");
+    spriteRight = new Sprite("Resources/PlayerRight.jpg");
     
-    BBox(new Rect(-32, -32, 32, 32));
+    BBox(new Rect(-30, -30, 30, 30));
     MoveTo(window->CenterX(), window->CenterY());
 
     type = PLAYER;
@@ -25,11 +24,35 @@ Player::~Player() {
 }
 
 void Player::OnCollision(Object * obj) {
-    if (obj->Type() == PIVOT) PivotCollision(obj);
+    if (obj->Type() == STONE) StoneCollision(obj);
 }
 
-void Player::PivotCollision(Object * obj) {
-    Pivot * p = (Pivot*)obj;
+void Player::StoneCollision(Object * obj) {
+    Stone * stone = (Stone*) obj;
+    bool hasExceededStone = 
+        abs(x - stone->X()) < spriteSize &&
+        abs(y - stone->Y()) < spriteSize;
+
+    if(!hasExceededStone) return;
+    switch(state) {
+        case UP:
+        case DOWN: {
+            float directionModifier = 
+                spriteSize * (state == UP ? 1 : -1);
+
+            MoveTo(x, stone->Y() + directionModifier);
+            break;
+        }
+
+        case LEFT:
+        case RIGHT: {
+            float directionModifier = 
+                spriteSize * (state == LEFT ? 1 : -1);
+
+            MoveTo(stone->X() + directionModifier, y);
+            break;
+        }
+    }
 }
 
 PLAYERSTATE Player::GetStateBasedOnWindowKey() {
@@ -67,27 +90,26 @@ void Player::VerifyAndMovePlayerIfExceededWindow() {
 }
 
 void Player::HandleMovePlayer(PLAYERSTATE updatedState) {
-    switch(updatedState) {
-        case LEFT: {
-            if(state != LEFT) state = LEFT;
-            else Translate(-speed * gameTime, 0);
-            break;
-        }
-        case RIGHT: {
-            if(state != RIGHT) state = RIGHT;
-            else Translate(speed * gameTime, 0);
-            break;
-        }
-        case UP: {
-            if(state != UP) state = UP;
-            else Translate(0, -speed * gameTime);
-            break;
-        }
-        case DOWN: {
-            if(state != DOWN) state = DOWN;
-            else Translate(0, speed*gameTime);
-            break;
-        }
+    if(updatedState == NONE) return;
+
+    if(updatedState == LEFT) {
+        if(state != LEFT) state = LEFT;
+        else Translate(-speed * gameTime, 0);
+    }
+
+    if(updatedState == RIGHT) {
+        if(state != RIGHT) state = RIGHT;
+        else Translate(speed * gameTime, 0);
+    }
+
+    if(updatedState == UP) {
+        if(state != UP) state = UP;
+        else Translate(0, -speed * gameTime);
+    }
+
+    if(updatedState == DOWN) {
+        if(state != DOWN) state = DOWN;
+        else Translate(0, speed*gameTime);
     }
 
     VerifyAndMovePlayerIfExceededWindow();

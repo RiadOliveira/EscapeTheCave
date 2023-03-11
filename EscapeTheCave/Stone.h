@@ -13,7 +13,6 @@ class Stone : public Object {
         ~Stone();
 
         void OnCollision(Object * obj);
-        void OnPlayerCollision(Object * obj);
 
         void Update();
         void Draw();

@@ -16,7 +16,7 @@ class Player : public Object {
 
         int spriteSize;
         PLAYERSTATE state;
-        float speed = 200.0f;
+        float speed = 160.0f;
 
         PLAYERSTATE GetStateBasedOnWindowKey();
         void HandleMovePlayer(PLAYERSTATE updatedState);
@@ -25,17 +25,17 @@ class Player : public Object {
         Player();
         ~Player();
 
+        int SpriteSize();
+        PLAYERSTATE State();
+
         void OnCollision(Object * obj);
-        void PivotCollision(Object * obj);
+        void StoneCollision(Object * obj);
 
         void Update();
         void Draw();
-
-        PLAYERSTATE State();
-        int SpriteSize();
 };
 
-inline PLAYERSTATE Player::State() { return state; }
 inline int Player::SpriteSize() { return spriteSize; }
+inline PLAYERSTATE Player::State() { return state; }
 
 #endif

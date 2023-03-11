@@ -3,6 +3,8 @@
         "system_error": "cpp",
         "xlocale": "cpp",
         "string": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp"
     }
 }

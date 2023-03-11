@@ -3,12 +3,10 @@
 
 #include "Game.h"
 #include "Sprite.h"
-#include "Scene.h"
 
 class Level1 : public Game {
     private:
         Sprite * backg = nullptr;
-        Scene * scene = nullptr;
         Image * stoneImage = nullptr;
         bool viewBBox = false;
 

@@ -5,8 +5,7 @@
 #include "Player.h"
 #include "Pivot.h"
 #include "Stone.h"
-#include <string>
-#include <fstream>
+#include "MiningPoint.h"
 #include <cmath>
 using std::ifstream;
 using std::string;
@@ -54,6 +53,9 @@ void Level1::Init() {
 
     Player * player = new Player();
     scene->Add(player, MOVING);
+
+    MiningPoint * miningPoint = new MiningPoint(player);
+    scene->Add(miningPoint, MOVING);
 
     RenderLevelStones();
 }

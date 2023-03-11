@@ -252,6 +252,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Level2.cpp" />
+    <ClCompile Include="MiningPoint.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Pivot.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Level2.h" />
+    <ClInclude Include="MiningPoint.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Pivot.h" />
     <ClInclude Include="Player.h" />

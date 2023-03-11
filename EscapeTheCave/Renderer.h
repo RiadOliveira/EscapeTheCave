@@ -95,7 +95,7 @@ public:
 
 // plota pixels sem fazer recorte (clipping)
 inline void Renderer::PlotPixel(int x, int y, ulong color)
-{ videoMemory[x + y * videoMemoryPitch] = color; }
+ { videoMemory[x + y * videoMemoryPitch] = color; }
 
 // plota pixels para o método de desenho de linhas
 inline void Renderer::PlotLine(int x, int y, int flag, ulong color)

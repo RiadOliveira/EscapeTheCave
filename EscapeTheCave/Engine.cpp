@@ -1,16 +1,16 @@
 /**********************************************************************************
-// Engine (Código Fonte)
+// Engine (Cï¿½digo Fonte)
 //
-// Criação:     15 Mai 2014
-// Atualização: 04 Mar 2023
+// Criaï¿½ï¿½o:     15 Mai 2014
+// Atualizaï¿½ï¿½o: 04 Mar 2023
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   A função da Engine é rodar jogos criados a partir da classe
+// Descriï¿½ï¿½o:   A funï¿½ï¿½o da Engine ï¿½ rodar jogos criados a partir da classe
 //              abstrata Game. Todo jogo deve ser uma classe derivada de Game
-//              e portanto deve implementar as funções membro Init, Update, Draw
-//              e Finalize, que serão chamadas pelo motor em um laço de tempo real.
-//              Para usar a classe Engine, o programador deve criar uma instância
-//              e chamar o método Start(), passando um objeto derivado de Game.
+//              e portanto deve implementar as funï¿½ï¿½es membro Init, Update, Draw
+//              e Finalize, que serï¿½o chamadas pelo motor em um laï¿½o de tempo real.
+//              Para usar a classe Engine, o programador deve criar uma instï¿½ncia
+//              e chamar o mï¿½todo Start(), passando um objeto derivado de Game.
 //
 **********************************************************************************/
 
@@ -20,11 +20,11 @@
 using std::stringstream;
 
 // ------------------------------------------------------------------------------
-// Inicialização de variáveis estáticas da classe
+// Inicializaï¿½ï¿½o de variï¿½veis estï¿½ticas da classe
 
-Game     * Engine::game      = nullptr;     // jogo em execução
+Game     * Engine::game      = nullptr;     // jogo em execuï¿½ï¿½o
 Window   * Engine::window    = nullptr;     // janela do jogo
-Graphics * Engine::graphics  = nullptr;     // dispositivo gráfico
+Graphics * Engine::graphics  = nullptr;     // dispositivo grï¿½fico
 Renderer * Engine::renderer  = nullptr;     // renderizador de sprites 
 float      Engine::frameTime = 0.0f;        // tempo do quadro atual
 bool       Engine::paused    = false;       // estado do game loop
@@ -58,21 +58,21 @@ int Engine::Start(Game* level)
     // cria janela do jogo
     if (!window->Create())
     {
-        MessageBox(nullptr, "Falha na criação da janela", "Engine", MB_OK);
+        MessageBox(nullptr, "Falha na criaï¿½ï¿½o da janela", "Engine", MB_OK);
         return EXIT_FAILURE;
     }
 
-    // inicializa dispositivo gráfico
+    // inicializa dispositivo grï¿½fico
     if (!graphics->Initialize(window))
     {
-        MessageBox(window->Id(), "Falha na inicialização do dispositivo gráfico", "Engine", MB_OK);
+        MessageBox(window->Id(), "Falha na inicializaï¿½ï¿½o do dispositivo grï¿½fico", "Engine", MB_OK);
         return EXIT_FAILURE;
     }
 
     // inicializa renderizador de sprites
     if (!renderer->Initialize(window, graphics))
     {
-        MessageBox(window->Id(), "Falha na criação do renderizador", "Engine", MB_OK);
+        MessageBox(window->Id(), "Falha na criaï¿½ï¿½o do renderizador", "Engine", MB_OK);
         return EXIT_FAILURE;
     }
 
@@ -102,13 +102,13 @@ int Engine::Loop()
     // inicia contagem de tempo
     timer.Start();
 
-    // inicialização do jogo
+    // inicializaï¿½ï¿½o do jogo
     game->Init();
 
     // mensagens do Windows
     MSG  msg = { 0 };
 
-    // laço principal do jogo
+    // laï¿½o principal do jogo
     do
     {
         // testa se tem mensagem do windows para tratar
@@ -140,10 +140,10 @@ int Engine::Loop()
                 // calcula o tempo do quadro
                 frameTime = FrameTime();
 
-                // atualização do jogo 
+                // atualizaï¿½ï¿½o do jogo 
                 game->Update();
 
-                // limpa a tela para o próximo quadro
+                // limpa a tela para o prï¿½ximo quadro
                 graphics->Clear();
 
                 // desenha o jogo
@@ -166,10 +166,10 @@ int Engine::Loop()
 
     } while (msg.message != WM_QUIT);
 
-    // finalização do jogo
+    // finalizaï¿½ï¿½o do jogo
     game->Finalize();
 
-    // encerra aplicação
+    // encerra aplicaï¿½ï¿½o
     return int(msg.wParam);
 }
 
@@ -196,8 +196,8 @@ float Engine::FrameTime()
     if (totalTime >= 1.0f)
     {
         stringstream text;            // fluxo de texto para mensagens
-        text << std::fixed;           // sempre mostra a parte fracionária
-        text.precision(3);            // três casas depois da vírgula
+        text << std::fixed;           // sempre mostra a parte fracionï¿½ria
+        text.precision(3);            // trï¿½s casas depois da vï¿½rgula
 
         text << window->Title().c_str() << "    "
             << "FPS: " << frameCount << "    "
