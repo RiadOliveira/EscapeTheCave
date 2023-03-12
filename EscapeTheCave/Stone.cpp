@@ -1,14 +1,15 @@
 #include "Stone.h"
 #include "Player.h"
 #include "Game.h"
+#include "Pivot.h"
 #include "EscapeTheCave.h"
 
 Stone::Stone(Image ** images, uint spritesQuantity):
-    spriteSize(images[0]->Width()), spritesQuantity(spritesQuantity),
+    spriteSize((float) images[0]->Width()), spritesQuantity(spritesQuantity),
     durability(spritesQuantity)
 {
     sprites = new Sprite*[spritesQuantity];
-    for(int ind=0 ; ind<spritesQuantity ; ind++) {
+    for(uint ind=0 ; ind<spritesQuantity ; ind++) {
         sprites[ind] = new Sprite(images[ind]);
     }
 
@@ -28,7 +29,11 @@ Stone::~Stone() {
         Game::GetScene()->Add(dropingItem, STATIC);
     }
 
-    for(int ind=0 ; ind<spritesQuantity ; ind++) {
+    Pivot * pivot = new Pivot();
+    pivot->MoveTo(x, y);
+    Game::GetScene()->Add(pivot, STATIC);
+
+    for(uint ind=0 ; ind<spritesQuantity ; ind++) {
         delete sprites[ind];
     }
     delete [] sprites;

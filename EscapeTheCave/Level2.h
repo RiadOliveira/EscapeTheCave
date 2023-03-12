@@ -3,13 +3,20 @@
 
 #include "Game.h"
 #include "Sprite.h"
-#include "Scene.h"
 
 class Level2 : public Game {
     private:
         Sprite * backg = nullptr;
-        Scene * scene = nullptr;
         bool viewBBox = false;
+
+        Image * stoneImage;
+        Image * mossStoneImage;
+        Image * bombImage;
+
+        void RenderLevelStones();
+        void CreateLevelStone(
+            float positionX, float positionY
+        );
     public:
         void Init();
         void Update();

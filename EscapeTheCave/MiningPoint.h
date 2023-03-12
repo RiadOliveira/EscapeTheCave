@@ -7,7 +7,7 @@
 
 class MiningPoint : public Object {
     private:
-        int distanceToPlayer;
+        float distanceToPlayer;
         Player * player = nullptr;
         Stone * collidingStone = nullptr;
 

@@ -7,12 +7,14 @@
 class Level1 : public Game {
     private:
         Sprite * backg = nullptr;
-        Image * stoneImage = nullptr;
-        Image * mossStoneImage = nullptr;
         bool viewBBox = false;
 
-        void RenderLevelStones();
-        void CreateLevelStone(
+        Image * stoneImage;
+        Image * mossStoneImage;
+        Image * bombImage;
+
+        void RenderLevelStonesAndPivots();
+        void CreateLevelStoneOrPivot(
             float positionX, float positionY
         );
     public:

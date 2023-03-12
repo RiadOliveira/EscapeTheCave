@@ -1,19 +1,19 @@
 #include "EscapeTheCave.h"
 #include "Player.h"
 #include "Stone.h"
+#include "Bomb.h"
 
-Player::Player() {
-    spriteUp = new Sprite("Resources/PlayerUp.png");
-    spriteDown = new Sprite("Resources/PlayerDown.png");
-    spriteLeft = new Sprite("Resources/PlayerLeft.png");
-    spriteRight = new Sprite("Resources/PlayerRight.png");
+Player::Player(Image * &bombImage): state(UP), bombsQuantity(1), bombImage(bombImage) {
+    spriteUp = new Sprite("Resources/Player/PlayerUp.png");
+    spriteDown = new Sprite("Resources/Player/PlayerDown.png");
+    spriteLeft = new Sprite("Resources/Player/PlayerLeft.png");
+    spriteRight = new Sprite("Resources/Player/PlayerRight.png");
     
     BBox(new Rect(-56, -56, 56, 56));
     MoveTo(window->CenterX() + 1, window->CenterY());
 
     type = PLAYER;
-    state = UP;
-    spriteSize = spriteUp->Width();
+    spriteSize = (float) spriteUp->Width();
 }
 
 Player::~Player() {
@@ -39,7 +39,7 @@ void Player::StoneCollision(Object * obj) {
     switch(state) {
         case UP:
         case DOWN: {
-            int directionModifier = 
+            float directionModifier = 
                 collisionValue * (state == UP ? 1 : -1);
 
             MoveTo(x, stone->Y() + directionModifier);
@@ -48,7 +48,7 @@ void Player::StoneCollision(Object * obj) {
 
         case LEFT:
         case RIGHT: {
-            int directionModifier = 
+            float directionModifier = 
                 collisionValue * (state == LEFT ? 1 : -1);
 
             MoveTo(stone->X() + directionModifier, y);
@@ -58,10 +58,10 @@ void Player::StoneCollision(Object * obj) {
 }
 
 PLAYERSTATE Player::GetStateBasedOnWindowKey() {
-    if(window->KeyDown(VK_LEFT)) return LEFT;
-    if(window->KeyDown(VK_RIGHT)) return RIGHT;
-    if(window->KeyDown(VK_UP)) return UP;
-    if(window->KeyDown(VK_DOWN)) return DOWN;
+    if(window->KeyDown(VK_LEFT) || window->KeyDown('A')) return LEFT;
+    if(window->KeyDown(VK_RIGHT)|| window->KeyDown('D')) return RIGHT;
+    if(window->KeyDown(VK_UP) || window->KeyDown('W')) return UP;
+    if(window->KeyDown(VK_DOWN) || window->KeyDown('S')) return DOWN;
     return NONE;
 }
 
@@ -119,7 +119,14 @@ void Player::HandleMovePlayer(PLAYERSTATE updatedState) {
 
 void Player::Update() {
     HandleMovePlayer(GetStateBasedOnWindowKey());
-    if(energy > 0) energy -= 0.05;
+
+    if(window->KeyPress('Z') && bombsQuantity-- > 0) {
+        Bomb * playerBomb = new Bomb(PLAYED, bombImage);
+        playerBomb->MoveTo(x, y);
+        Game::GetScene()->Add(playerBomb, MOVING);
+    }
+
+    if(energy > 0) energy -= 0.05f;
 }
 
 void Player::Draw() {

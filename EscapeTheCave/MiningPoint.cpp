@@ -6,9 +6,10 @@
 
 MiningPoint::MiningPoint(Player * player): 
     player(player), previousState(player->State()),
-    distanceToPlayer(player->SpriteSize()/2 + 16)
+    distanceToPlayer(player->SpriteSize()/2 + 16.0f)
 {
     BBox(new Point(player->X(), player->Y()));
+    type = MINING_POINT;
 }
 
 MiningPoint::~MiningPoint() {
@@ -20,16 +21,19 @@ void MiningPoint::OnCollision(Object * obj) {
 
 void MiningPoint::StoneCollision(Object * obj) {
     Stone * stone = (Stone *) obj;
-
-    if(window->KeyPress(VK_SPACE)) {
-        collidingStone = nullptr;
+    
+    if(window->KeyPress(VK_SPACE)){
         stone->DecreaseDurability();
+        collidingStone = nullptr;
     } else collidingStone = stone;
 }
 
 void MiningPoint::Update() {
     PLAYERSTATE updatedState = player->State();
-    if(previousState != updatedState) collidingStone = nullptr;
+
+    bool needsToRemoveStoneReference = collidingStone != nullptr &&
+        (previousState != updatedState || collidingStone->IsBroken());
+    if(needsToRemoveStoneReference) collidingStone = nullptr;
 
     switch(updatedState) {
         case LEFT: {
