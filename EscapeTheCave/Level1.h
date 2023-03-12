@@ -8,11 +8,12 @@ class Level1 : public Game {
     private:
         Sprite * backg = nullptr;
         Image * stoneImage = nullptr;
+        Image * mossStoneImage = nullptr;
         bool viewBBox = false;
 
         void RenderLevelStones();
         void CreateLevelStone(
-            int positionX, int positionY
+            float positionX, float positionY
         );
     public:
         void Init();

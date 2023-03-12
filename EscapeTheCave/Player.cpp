@@ -3,13 +3,13 @@
 #include "Stone.h"
 
 Player::Player() {
-    spriteUp = new Sprite("Resources/PlayerUp.jpg");
-    spriteDown = new Sprite("Resources/PlayerDown.jpg");
-    spriteLeft = new Sprite("Resources/PlayerLeft.jpg");
-    spriteRight = new Sprite("Resources/PlayerRight.jpg");
+    spriteUp = new Sprite("Resources/PlayerUp.png");
+    spriteDown = new Sprite("Resources/PlayerDown.png");
+    spriteLeft = new Sprite("Resources/PlayerLeft.png");
+    spriteRight = new Sprite("Resources/PlayerRight.png");
     
-    BBox(new Rect(-30, -30, 30, 30));
-    MoveTo(window->CenterX(), window->CenterY());
+    BBox(new Rect(-56, -56, 56, 56));
+    MoveTo(window->CenterX() + 1, window->CenterY());
 
     type = PLAYER;
     state = UP;
@@ -29,16 +29,18 @@ void Player::OnCollision(Object * obj) {
 
 void Player::StoneCollision(Object * obj) {
     Stone * stone = (Stone*) obj;
+
+    float collisionValue = spriteSize/2 + stone->SpriteSize()/2;
     bool hasExceededStone = 
-        abs(x - stone->X()) < spriteSize &&
-        abs(y - stone->Y()) < spriteSize;
+        abs(x - stone->X()) < collisionValue &&
+        abs(y - stone->Y()) < collisionValue;
 
     if(!hasExceededStone) return;
     switch(state) {
         case UP:
         case DOWN: {
             int directionModifier = 
-                spriteSize * (state == UP ? 1 : -1);
+                collisionValue * (state == UP ? 1 : -1);
 
             MoveTo(x, stone->Y() + directionModifier);
             break;
@@ -47,7 +49,7 @@ void Player::StoneCollision(Object * obj) {
         case LEFT:
         case RIGHT: {
             int directionModifier = 
-                spriteSize * (state == LEFT ? 1 : -1);
+                collisionValue * (state == LEFT ? 1 : -1);
 
             MoveTo(stone->X() + directionModifier, y);
             break;

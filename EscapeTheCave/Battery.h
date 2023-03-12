@@ -15,8 +15,8 @@ class Battery : public Object {
         uint selectedSpriteIndex;
         float energyOfOneBatteryBar;
 
-        int GetXPosition();
-        int GetYPosition();
+        float GetXPosition();
+        float GetYPosition();
     public:
         Battery(Player * player);
         ~Battery();
@@ -27,11 +27,11 @@ class Battery : public Object {
         void Draw();
 };
 
-inline int Battery::GetXPosition() {
+inline float Battery::GetXPosition() {
     return 16.0f + sprites[selectedSpriteIndex]->Width()/2;
 }
 
-inline int Battery::GetYPosition() {
+inline float Battery::GetYPosition() {
     return 16.0f + sprites[selectedSpriteIndex]->Height()/2;
 }
 

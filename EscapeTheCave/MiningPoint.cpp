@@ -6,7 +6,7 @@
 
 MiningPoint::MiningPoint(Player * player): 
     player(player), previousState(player->State()),
-    distanceToPlayer(player->SpriteSize())
+    distanceToPlayer(player->SpriteSize()/2 + 16)
 {
     BBox(new Point(player->X(), player->Y()));
 }
@@ -23,7 +23,7 @@ void MiningPoint::StoneCollision(Object * obj) {
 
     if(window->KeyPress(VK_SPACE)) {
         collidingStone = nullptr;
-        Game::GetScene()->Delete(obj, STATIC);
+        stone->DecreaseDurability();
     } else collidingStone = stone;
 }
 

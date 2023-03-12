@@ -2,7 +2,6 @@
 #include "Home.h"
 #include "Level2.h"
 #include "Player.h"
-#include "Pivot.h"
 #include <string>
 #include <fstream>
 using std::ifstream;
@@ -13,30 +12,6 @@ void Level2::Init() {
 
     Player * player = new Player();
     scene->Add(player, MOVING);
-
-    Pivot * pivot;
-    bool left, right, up, down;
-    float posX, posY;
-    ifstream fin;
-
-    fin.open("PivotsL2.txt");
-    fin >> left;
-
-    while (!fin.eof()) {
-        if (fin.good()) {
-            fin >> right; fin >> up; fin >> down; fin >> posX; fin >> posY;
-            pivot = new Pivot(left, right, up, down);
-            pivot->MoveTo(posX, posY);
-            scene->Add(pivot, STATIC);
-        } else {
-            fin.clear();
-            char temp[80];
-            fin.getline(temp, 80);
-        }
-        
-        fin >> left;
-    }
-    fin.close();
 }
 
 void Level2::Finalize() {
@@ -59,6 +34,5 @@ void Level2::Update() {
 
 void Level2::Draw() {
     scene->Draw();
-
     if (viewBBox) scene->DrawBBox();
 }

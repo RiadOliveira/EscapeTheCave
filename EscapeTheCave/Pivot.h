@@ -6,12 +6,7 @@
 
 class Pivot : public Object {
     public:
-        bool left  = false;
-        bool right = false;
-        bool up    = false;
-        bool down  = false;
-
-        Pivot(bool l, bool r, bool u, bool d);
+        Pivot();
         ~Pivot(); 
 
         void Update() {};

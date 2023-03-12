@@ -11,7 +11,7 @@ using std::ifstream;
 using std::string;
 
 void Level1::CreateLevelStone(
-    int positionX, int positionY
+    float positionX, float positionY
 ) {
     int xStartsWithoutStone = abs(window->CenterX() - positionX) < 96;
     int yStartsWithoutStone = abs(window->CenterY() - positionY) < 96;
@@ -19,13 +19,14 @@ void Level1::CreateLevelStone(
     bool positionStartsWithoutStone = xStartsWithoutStone && yStartsWithoutStone;
     if(positionStartsWithoutStone) return;
 
-    Stone * stone = new Stone(stoneImage);
+    Stone * stone = new Stone(new Image*[2]{stoneImage, mossStoneImage}, 2);
     stone->MoveTo(positionX, positionY);
     scene->Add(stone, STATIC);
 }
 
 void Level1::RenderLevelStones() {
     stoneImage = new Image("Resources/Stone.png");
+    mossStoneImage = new Image("Resources/MossStone.png");
 
     int windowWidth = window->Width();
     int windowHeight = window->Width();
@@ -42,7 +43,7 @@ void Level1::RenderLevelStones() {
             yInd <= windowHeight - stoneHalfHeight ;
             yInd += stoneImage->Height()
         ) {
-            CreateLevelStone(xInd, yInd);
+            CreateLevelStone((float) xInd, (float) yInd);
         }
     }
 }

@@ -10,8 +10,7 @@ int APIENTRY WinMain(
 ) {
     Engine * engine = new Engine();
 
-    engine->window->Mode(WINDOWED);
-    engine->window->Size(960, 720);
+    engine->window->Mode(BORDERLESS);
     engine->window->Color(25, 25, 25);
     engine->window->Title("Escape The Cave");
     engine->window->Icon(IDI_ICON);
