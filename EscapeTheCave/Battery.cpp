@@ -32,10 +32,10 @@ void Battery::OnCollision(Object * obj) {
 
 void Battery::Update() {
     if(selectedSpriteIndex == 0) {
-        if(timer->Elapsed() >= 5.0) energy = 0.0f;
+        if(timer->Elapsed() >= 5.0f) energy = 0.0f;
         return;
     }
-    if(timer->Elapsed() < 10.0) return;
+    if(timer->Elapsed() < 10.0f) return;
 
     energy -= energyOfOneBatteryBar;
     selectedSpriteIndex--;

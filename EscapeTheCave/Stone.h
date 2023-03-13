@@ -20,6 +20,9 @@ class Stone : public Object {
         Stone(uint maxDurability, Object * dropingItem);
         ~Stone();
 
+        uint Durability();
+        uint MaxDurability();
+
         float SpriteSize();
         bool IsBroken();
 
@@ -30,6 +33,9 @@ class Stone : public Object {
         void Update();
         void Draw();
 };
+
+inline uint Stone::Durability() { return durability; }
+inline uint Stone::MaxDurability() { return maxDurability; }
 
 inline float Stone::SpriteSize() { return spriteSize; }
 
