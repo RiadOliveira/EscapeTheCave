@@ -1,12 +1,12 @@
 #include "Engine.h"
 #include "Home.h"
+#include "GameOver.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Player.h"
 #include "Stone.h"
-#include "MiningPoint.h"
-#include "Battery.h"
 #include "Pivot.h"
+#include "MiningPoint.h"
 
 void Level1::CreateLevelStoneOrPivot(
     float positionX, float positionY
@@ -55,15 +55,13 @@ void Level1::Init() {
     backg = new Sprite("Resources/LevelBackground.jpg");
     bombImage = new Image("Resources/Bomb/Bomb.png");
 
-    Player * player = new Player(bombImage);
+    Battery * battery = new Battery();
+    player = new Player(bombImage, battery);
+
     scene->Add(player, MOVING);
-
-    MiningPoint * miningPoint = new MiningPoint(player);
-    scene->Add(miningPoint, MOVING);
-
-    Battery * battery = new Battery(player);
+    scene->Add(new MiningPoint(player), MOVING);
     scene->Add(battery, STATIC);
-
+    
     RenderLevelStonesAndPivots();
 }
 
@@ -76,11 +74,11 @@ void Level1::Finalize() {
 }
 
 void Level1::Update() {
-    if (window->KeyPress('B')) {
-        viewBBox = !viewBBox;
-    }
+    if (window->KeyPress('B')) viewBBox = !viewBBox;
 
-    if (window->KeyPress(VK_ESCAPE)) {
+    if(player->BatteryEnergy() == 0.0f) {
+        Engine::Next<GameOver>();
+    } else if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
     } else if (window->KeyPress('N')) {
         Engine::Next<Level2>();

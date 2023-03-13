@@ -2,6 +2,7 @@
 #define _ESCAPETHECAVE_LEVEL1_H_
 
 #include "Game.h"
+#include "Player.h"
 #include "Sprite.h"
 
 class Level1 : public Game {
@@ -9,9 +10,10 @@ class Level1 : public Game {
         Sprite * backg = nullptr;
         bool viewBBox = false;
 
-        Image * stoneImage;
-        Image * mossStoneImage;
-        Image * bombImage;
+        Player * player = nullptr;
+        Image * stoneImage = nullptr;
+        Image * mossStoneImage = nullptr;
+        Image * bombImage = nullptr;
 
         void RenderLevelStonesAndPivots();
         void CreateLevelStoneOrPivot(

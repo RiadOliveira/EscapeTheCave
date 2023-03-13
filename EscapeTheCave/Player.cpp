@@ -3,7 +3,10 @@
 #include "Stone.h"
 #include "Bomb.h"
 
-Player::Player(Image * &bombImage): state(UP), bombsQuantity(1), bombImage(bombImage) {
+Player::Player(Image * &bombImage, Battery * battery):
+    state(UP), bombsQuantity(1), bombImage(bombImage),
+    battery(battery)
+{
     spriteUp = new Sprite("Resources/Player/PlayerUp.png");
     spriteDown = new Sprite("Resources/Player/PlayerDown.png");
     spriteLeft = new Sprite("Resources/Player/PlayerLeft.png");
@@ -13,7 +16,7 @@ Player::Player(Image * &bombImage): state(UP), bombsQuantity(1), bombImage(bombI
     MoveTo(window->CenterX() + 1, window->CenterY());
 
     type = PLAYER;
-    spriteSize = (float) spriteUp->Width();
+    spriteSize = (float) spriteUp->Width();    
 }
 
 Player::~Player() {
@@ -125,8 +128,6 @@ void Player::Update() {
         playerBomb->MoveTo(x, y);
         Game::GetScene()->Add(playerBomb, MOVING);
     }
-
-    if(energy > 0) energy -= 0.05f;
 }
 
 void Player::Draw() {

@@ -4,12 +4,13 @@
 #include "Types.h"
 #include "Object.h"
 #include "Sprite.h"
+#include "Battery.h"
 
 enum PLAYERSTATE {UP, DOWN, LEFT, RIGHT, NONE};    
 
 class Player : public Object {
     private:
-        float maxEnergy = 100.0f;
+        Battery * battery = nullptr;
 
         Sprite * spriteUp = nullptr;
         Sprite * spriteDown = nullptr;
@@ -19,7 +20,6 @@ class Player : public Object {
 
         float spriteSize;
         float speed = 120.0f;
-        float energy = 100.0f;
 
         int bombsQuantity;
         PLAYERSTATE state;
@@ -28,13 +28,12 @@ class Player : public Object {
         void HandleMovePlayer(PLAYERSTATE updatedState);
         void VerifyAndMovePlayerIfExceededWindow();
     public:
-        Player(Image * &bombImage);
+        Player(Image * &bombImage, Battery * battery);
         ~Player();
 
         float SpriteSize();
+        float BatteryEnergy();
         PLAYERSTATE State();
-        float Energy();
-        float MaxEnergy();
 
         void OnCollision(Object * obj);
         void StoneCollision(Object * obj);
@@ -44,9 +43,8 @@ class Player : public Object {
 };
 
 inline float Player::SpriteSize() { return spriteSize; }
-inline float Player::Energy() { return energy; }
-inline float Player::MaxEnergy() { return maxEnergy; }
-
 inline PLAYERSTATE Player::State() { return state; }
+
+inline float Player::BatteryEnergy() { return battery->Energy(); }
 
 #endif

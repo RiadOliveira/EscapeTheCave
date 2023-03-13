@@ -1,6 +1,7 @@
 #include "Battery.h"
+#include "Engine.h"
 
-Battery::Battery(Player * player): player(player) {
+Battery::Battery(): energy(100.0f) {
     sprites = new Sprite*[spritesQuantity];
     string spritesPath = "Resources/Battery/Battery";
 
@@ -11,8 +12,11 @@ Battery::Battery(Player * player): player(player) {
     }
 
     selectedSpriteIndex = spritesQuantity - 1;
-    energyOfOneBatteryBar = player->MaxEnergy() / (spritesQuantity - 1);
+    energyOfOneBatteryBar = maxEnergy / (spritesQuantity - 1);
     MoveTo(GetXPosition(), GetYPosition());
+
+    timer = new Timer();
+    timer->Start();
 }
 
 Battery::~Battery() {
@@ -27,14 +31,15 @@ void Battery::OnCollision(Object * obj) {
 }
 
 void Battery::Update() {
-    if(selectedSpriteIndex == 0) return;
+    if(selectedSpriteIndex == 0) {
+        if(timer->Elapsed() < 5.0) energy = 0.0f;
+        return;
+    }
+    if(timer->Elapsed() < 10.0) return;
 
-    float energyToVerifyLoss = 
-        energyOfOneBatteryBar * (spritesQuantity - selectedSpriteIndex);
-
-    if(player->MaxEnergy() - player->Energy() >= energyToVerifyLoss) {
-        selectedSpriteIndex--;
-    } 
+    energy -= energyOfOneBatteryBar;
+    selectedSpriteIndex--;
+    timer->Reset();
 }
 
 void Battery::Draw() {

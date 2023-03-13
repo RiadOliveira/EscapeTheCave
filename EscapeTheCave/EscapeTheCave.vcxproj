@@ -248,6 +248,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EscapeTheCave.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Home.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EscapeTheCave.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Home.h" />
