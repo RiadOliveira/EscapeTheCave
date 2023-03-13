@@ -4,22 +4,33 @@
 #include "Pivot.h"
 #include "EscapeTheCave.h"
 
-Stone::Stone(Image ** images, uint spritesQuantity):
-    spriteSize((float) images[0]->Width()), spritesQuantity(spritesQuantity),
-    durability(spritesQuantity)
+Image ** Stone::stoneImages = nullptr;
+
+Stone::Stone(uint maxDurability):
+    maxDurability(maxDurability), durability(maxDurability)
 {
-    sprites = new Sprite*[spritesQuantity];
-    for(uint ind=0 ; ind<spritesQuantity ; ind++) {
-        sprites[ind] = new Sprite(images[ind]);
+    if(stoneImages == nullptr) {
+        Image * completeStoneImg = new Image("Resources/Stone/CompleteStone.png");
+        Image * brokenStoneImg = new Image("Resources/Stone/BrokenStone.png");
+
+        stoneImages = new Image*[2]{brokenStoneImg, completeStoneImg};
     }
 
-    BBox(new Rect(-60, -60, 60, 60));
+    spritesQuantity = maxDurability > 1 ? 2 : 1;
+    sprites = new Sprite*[spritesQuantity];
+    for(uint ind=0 ; ind<spritesQuantity ; ind++) {
+        sprites[ind] = new Sprite(stoneImages[ind]);
+    }
+
+    spriteSize = (float) stoneImages[0]->Width();
+    float boxCoord = spriteSize/2;
+
+    BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
     type = STONE;
-    delete images;
 }
 
-Stone::Stone(Image ** images, uint spritesQuantity, Object * dropingItem):
-    Stone(images, spritesQuantity)
+Stone::Stone(uint maxDurability, Object * dropingItem):
+    Stone(maxDurability)
 {
     this->dropingItem = dropingItem;
 }
@@ -49,5 +60,5 @@ void Stone::Update() {
 
 void Stone::Draw() {
     if(durability == 0) return;
-    sprites[durability - 1]->Draw(x, y, Layer::UPPER);
+    sprites[durability > 1]->Draw(x, y, Layer::UPPER);
 }

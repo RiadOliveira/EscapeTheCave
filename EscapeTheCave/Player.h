@@ -16,7 +16,6 @@ class Player : public Object {
         Sprite * spriteDown = nullptr;
         Sprite * spriteLeft = nullptr;
         Sprite * spriteRight = nullptr;
-        Image * &bombImage;
 
         float spriteSize;
         float speed = 120.0f;
@@ -28,7 +27,7 @@ class Player : public Object {
         void HandleMovePlayer(PLAYERSTATE updatedState);
         void VerifyAndMovePlayerIfExceededWindow();
     public:
-        Player(Image * &bombImage, Battery * battery);
+        Player(Battery * battery);
         ~Player();
 
         float SpriteSize();

@@ -18,7 +18,7 @@ int * Level1::GetEscapePoint() {
     uniform_int_distribution<> dis(0, 1);
 
     bool isHorizontal = dis(gen);
-    int stoneWidth = completeStoneImg->Width();
+    int stoneWidth = objectDefaultWidth;
     int halfStoneWidth = stoneWidth/2;
 
     if(isHorizontal) {
@@ -64,8 +64,7 @@ void Level1::CreateLevelStoneOrPivot(
     bool isEscapePoint
 ) {
     if(isEscapePoint) {
-        Image ** stoneImages = new Image*[2]{brokenStoneImg, completeStoneImg};
-        Stone * stone = new Stone(stoneImages, 2, new Stone(stoneImages, 2));
+        Stone * stone = new Stone(2, new Stone(2));
         return;
     }
     if(HasCreatedPivot(positionX, positionY)) return;
@@ -74,23 +73,14 @@ void Level1::CreateLevelStoneOrPivot(
     uniform_int_distribution<> stoneTypeDis(0, 2);
     bool isBrokenStone = stoneTypeDis(gen) == 0;
 
-    Image ** stoneImages;
-    if(isBrokenStone) stoneImages = new Image*[1]{brokenStoneImg};
-    else stoneImages = new Image*[2]{brokenStoneImg, completeStoneImg};
-
-    Stone * stone = new Stone(stoneImages, 1 + !isBrokenStone);
+    Stone * stone = new Stone(1 + !isBrokenStone);
     stone->MoveTo(positionX, positionY);
     scene->Add(stone, STATIC);
 }
 
 void Level1::RenderLevelStonesAndPivots() {
-    completeStoneImg = new Image("Resources/Stone/CompleteStone.png");
-    brokenStoneImg = new Image("Resources/Stone/BrokenStone.png");
-
-    int stoneWidth = completeStoneImg->Width();
-    int stoneHeight = completeStoneImg->Height();
+    int stoneWidth = objectDefaultWidth;
     int stoneHalfWidth = stoneWidth/2;
-    int stoneHalfHeight = stoneHeight/2;
 
     int * escapePoint = GetEscapePoint();
     for(
@@ -99,9 +89,9 @@ void Level1::RenderLevelStonesAndPivots() {
         xInd += stoneWidth
     ) {
         for(
-            int yInd = stoneHalfHeight ;
-            yInd <= window->Height() - stoneHalfHeight ;
-            yInd += stoneHeight
+            int yInd = stoneHalfWidth ;
+            yInd <= window->Height() - stoneHalfWidth ;
+            yInd += stoneWidth
         ) {
             CreateLevelStoneOrPivot(
                 (float) xInd, (float) yInd,
@@ -114,10 +104,9 @@ void Level1::RenderLevelStonesAndPivots() {
 void Level1::Init() {
     scene = new Scene();
     backg = new Sprite("Resources/LevelBackground.jpg");
-    bombImage = new Image("Resources/Bomb/Bomb.png");
 
     Battery * battery = new Battery();
-    player = new Player(bombImage, battery);
+    player = new Player(battery);
 
     scene->Add(player, MOVING);
     scene->Add(new MiningPoint(player), MOVING);
@@ -129,9 +118,6 @@ void Level1::Init() {
 void Level1::Finalize() {
     delete backg;
     delete scene;
-    delete completeStoneImg;
-    delete brokenStoneImg;
-    delete bombImage;
 }
 
 void Level1::Update() {

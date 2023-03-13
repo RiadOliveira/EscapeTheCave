@@ -11,14 +11,11 @@ using std::random_device;
 class Level2 : public Game {
     private:
         random_device rd;
+        static const uint objectDefaultWidth = 120;
 
         Sprite * backg = nullptr;
-        bool viewBBox = false;
-
         Player * player = nullptr;
-        Image * completeStoneImg = nullptr;
-        Image * brokenStoneImg = nullptr;
-        Image * bombImage = nullptr;
+        bool viewBBox = false;
 
         int * GetEscapePoint();
         bool HasCreatedPivot(float positionX, float positionY);

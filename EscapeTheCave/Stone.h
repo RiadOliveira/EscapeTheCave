@@ -11,11 +11,13 @@ class Stone : public Object {
         Sprite ** sprites = nullptr;
         Object * dropingItem = nullptr;
 
-        uint spritesQuantity, durability;
+        static Image ** stoneImages;
+
+        uint maxDurability, durability, spritesQuantity;
         float spriteSize;
     public:
-        Stone(Image ** images, uint spritesQuantity);
-        Stone(Image ** images, uint spritesQuantity, Object * dropingItem);
+        Stone(uint maxDurability);
+        Stone(uint maxDurability, Object * dropingItem);
         ~Stone();
 
         float SpriteSize();

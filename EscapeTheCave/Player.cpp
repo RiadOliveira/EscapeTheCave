@@ -3,9 +3,8 @@
 #include "Stone.h"
 #include "Bomb.h"
 
-Player::Player(Image * &bombImage, Battery * battery):
-    state(UP), bombsQuantity(1), bombImage(bombImage),
-    battery(battery)
+Player::Player(Battery * battery):
+    state(UP), bombsQuantity(1), battery(battery)
 {
     spriteUp = new Sprite("Resources/Player/PlayerUp.png");
     spriteDown = new Sprite("Resources/Player/PlayerDown.png");
