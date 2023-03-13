@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Timer (Código Fonte)
+// Timer (Cï¿½digo Fonte)
 // 
-// Criação:     02 Abr 2011
-// Atualização: 10 Ago 2021
+// Criaï¿½ï¿½o:     02 Abr 2011
+// Atualizaï¿½ï¿½o: 10 Ago 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Usa um contador de alta precisão para medir o tempo.
+// Descriï¿½ï¿½o:   Usa um contador de alta precisï¿½o para medir o tempo.
 //
 **********************************************************************************/
 
@@ -16,10 +16,10 @@
 
 Timer::Timer()
 {
-    // pega freqüência do contador de alta resolução
+    // pega freqï¿½ï¿½ncia do contador de alta resoluï¿½ï¿½o
     QueryPerformanceFrequency(&freq);
 
-    // zera os valores de início e fim da contagem
+    // zera os valores de inï¿½cio e fim da contagem
     ZeroMemory(&start, sizeof(start));
     ZeroMemory(&end, sizeof(end));
 
@@ -50,7 +50,7 @@ void Timer::Start()
         //    start              now
         //                         
 
-        // leva em conta tempo já transcorrido antes da parada
+        // leva em conta tempo jï¿½ transcorrido antes da parada
         QueryPerformanceCounter(&start); 
         start.QuadPart -= elapsed;
 
@@ -131,7 +131,7 @@ float Timer::Elapsed()
 
     if (stoped)
     {
-        // tempo transcorrido até a parada
+        // tempo transcorrido atï¿½ a parada
         //
         //      <--- elapsed ---> <--- stoped --->
         // ----|-----------------|----------------|----> time

@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Timer (Arquivo de Cabeçalho)
+// Timer (Arquivo de Cabeï¿½alho)
 // 
-// Criação:     02 Abr 2011
-// Atualização: 10 Ago 2021
+// Criaï¿½ï¿½o:     02 Abr 2011
+// Atualizaï¿½ï¿½o: 10 Ago 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Usa um contador de alta precisão para medir o tempo.
+// Descriï¿½ï¿½o:   Usa um contador de alta precisï¿½o para medir o tempo.
 //
 **********************************************************************************/
 
@@ -14,33 +14,36 @@
 
 // -------------------------------------------------------------------------------
 
-#include <windows.h>            // acesso ao contador de alta precisão do Windows
+#include <windows.h>            // acesso ao contador de alta precisï¿½o do Windows
 
 // -------------------------------------------------------------------------------
 
 class Timer
 {
 private:
-    LARGE_INTEGER start, end;   // valores de início e fim do contador
-    LARGE_INTEGER freq;         // freqüência do contador
+    LARGE_INTEGER start, end;   // valores de inï¿½cio e fim do contador
+    LARGE_INTEGER freq;         // freqï¿½ï¿½ncia do contador
     bool stoped;                // estado da contagem
     
 public:
     Timer();                    // constructor
 
     void  Start();              // inicia/retoma contagem do tempo
-    void  Stop();               // pára contagem do tempo
+    void  Stop();               // pï¿½ra contagem do tempo
     float Reset();              // reinicia contagem e retorna tempo transcorrido
     float Elapsed();            // retorna tempo transcorrido em segundos    
     bool  Elapsed(float secs);  // verifica se transcorreu "secs" segundos
+    bool NotStarted();
 }; 
 
 // -------------------------------------------------------------------------------
 
-// Funções Inline
+// Funï¿½ï¿½es Inline
 
 inline bool Timer::Elapsed(float secs)
 { return (Elapsed() >= secs ? true : false); }
+
+inline bool Timer::NotStarted() { return start.QuadPart == 0 && end.QuadPart == 0; }
 
 // -------------------------------------------------------------------------------
 

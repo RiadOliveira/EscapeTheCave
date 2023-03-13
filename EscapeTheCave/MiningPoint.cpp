@@ -22,7 +22,7 @@ void MiningPoint::OnCollision(Object * obj) {
 void MiningPoint::StoneCollision(Object * obj) {
     Stone * stone = (Stone *) obj;
     
-    if(window->KeyPress(VK_SPACE)){
+    if(window->KeyPress(VK_SPACE) || window->KeyPress(VK_LBUTTON)){
         stone->DecreaseDurability();
         collidingStone = nullptr;
     } else collidingStone = stone;

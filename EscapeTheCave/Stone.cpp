@@ -15,6 +15,7 @@ Stone::Stone(Image ** images, uint spritesQuantity):
 
     BBox(new Rect(-60, -60, 60, 60));
     type = STONE;
+    delete images;
 }
 
 Stone::Stone(Image ** images, uint spritesQuantity, Object * dropingItem):

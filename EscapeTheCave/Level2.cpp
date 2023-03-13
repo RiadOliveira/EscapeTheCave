@@ -6,45 +6,106 @@
 #include "Stone.h"
 #include "Pivot.h"
 #include "MiningPoint.h"
+#include "Bomb.h"
+#include "random"
 
-void Level2::CreateLevelStoneOrPivot(
-    float positionX, float positionY
-) {
-    int xStartsWithoutStone = abs(window->CenterX() - positionX) < 64;
-    int yStartsWithoutStone = abs(window->CenterY() - positionY) < 64;
+using std::mt19937;
+using std::uniform_int_distribution;
+
+int * Level2::GetEscapePoint() {
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, 1);
+
+    bool isHorizontal = dis(gen);
+    int stoneWidth = completeStoneImg->Width();
+    int halfStoneWidth = stoneWidth/2;
+
+    if(isHorizontal) {
+        bool isLeft = dis(gen);
+        int xPosition = isLeft ?
+            halfStoneWidth : window->Width() - halfStoneWidth;
+
+        int verticalStonesAmount = window->Height() / stoneWidth;
+        uniform_int_distribution<> yDis(0, verticalStonesAmount - 1);
+        int generatedValue = yDis(gen);
+
+        int yPosition = stoneWidth * generatedValue + stoneWidth;
+        return new int[xPosition, yPosition];
+    }
+    
+    bool isUp = dis(gen);
+    int yPosition = isUp ?
+        halfStoneWidth : window->Height() - halfStoneWidth;
+
+    int horizontalStonesAmount = window->Width() / stoneWidth;
+    uniform_int_distribution<> xDis(0, horizontalStonesAmount - 1);
+    int generatedValue = xDis(gen);
+
+    int xPosition = stoneWidth * generatedValue + stoneWidth;
+    return new int[xPosition, yPosition];
+}
+
+bool Level2::HasCreatedPivot(float positionX, float positionY) {
+    bool xStartsWithoutStone = abs(window->CenterX() - positionX) < 64;
+    bool yStartsWithoutStone = abs(window->CenterY() - positionY) < 64;
 
     bool positionStartsWithoutStone = xStartsWithoutStone && yStartsWithoutStone;
-    if(positionStartsWithoutStone) {
-        Pivot * pivot = new Pivot();
-        pivot->MoveTo(positionX, positionY);
-        scene->Add(pivot, STATIC);
-    } else {
-        Stone * stone = new Stone(new Image*[2]{stoneImage, mossStoneImage}, 2);
-        stone->MoveTo(positionX, positionY);
-        scene->Add(stone, STATIC);
+    if(!positionStartsWithoutStone) return false;
+
+    Pivot * pivot = new Pivot();
+    pivot->MoveTo(positionX, positionY);
+    scene->Add(pivot, STATIC);
+    return true;
+}
+
+void Level2::CreateLevelStoneOrPivot(
+    float positionX, float positionY,
+    bool isEscapePoint
+) {
+    if(isEscapePoint) {
+        Image ** stoneImages = new Image*[2]{brokenStoneImg, completeStoneImg};
+        Stone * stone = new Stone(stoneImages, 2, new Stone(stoneImages, 2));
+        return;
     }
+    if(HasCreatedPivot(positionX, positionY)) return;
+
+    mt19937 gen(rd());
+    uniform_int_distribution<> stoneTypeDis(0, 2);
+    bool isBrokenStone = stoneTypeDis(gen) == 0;
+
+    Image ** stoneImages;
+    if(isBrokenStone) stoneImages = new Image*[1]{brokenStoneImg};
+    else stoneImages = new Image*[2]{brokenStoneImg, completeStoneImg};
+
+    Stone * stone = new Stone(stoneImages, 1 + !isBrokenStone, new Bomb(GENERATED));
+    stone->MoveTo(positionX, positionY);
+    scene->Add(stone, STATIC);
 }
 
 void Level2::RenderLevelStonesAndPivots() {
-    stoneImage = new Image("Resources/Stone.png");
-    mossStoneImage = new Image("Resources/MossStone.png");
+    completeStoneImg = new Image("Resources/Stone/CompleteStone.png");
+    brokenStoneImg = new Image("Resources/Stone/BrokenStone.png");
 
-    int windowWidth = window->Width();
-    int windowHeight = window->Width();
-    int stoneHalfWidth = stoneImage->Width()/2;
-    int stoneHalfHeight = stoneImage->Height()/2;
-    
+    int stoneWidth = completeStoneImg->Width();
+    int stoneHeight = completeStoneImg->Height();
+    int stoneHalfWidth = stoneWidth/2;
+    int stoneHalfHeight = stoneHeight/2;
+
+    int * escapePoint = GetEscapePoint();
     for(
         int xInd = stoneHalfWidth ;
-        xInd <= windowWidth - stoneHalfWidth ;
-        xInd += stoneImage->Width()
+        xInd <= window->Width() - stoneHalfWidth ;
+        xInd += stoneWidth
     ) {
         for(
             int yInd = stoneHalfHeight ;
-            yInd <= windowHeight - stoneHalfHeight ;
-            yInd += stoneImage->Height()
+            yInd <= window->Height() - stoneHalfHeight ;
+            yInd += stoneHeight
         ) {
-            CreateLevelStoneOrPivot((float) xInd, (float) yInd);
+            CreateLevelStoneOrPivot(
+                (float) xInd, (float) yInd,
+                xInd == escapePoint[0] && yInd == escapePoint[1]
+            );
         }
     }
 }
@@ -67,8 +128,8 @@ void Level2::Init() {
 void Level2::Finalize() {
     delete backg;
     delete scene;
-    delete stoneImage;
-    delete mossStoneImage;
+    delete completeStoneImg;
+    delete brokenStoneImg;
     delete bombImage;
 }
 

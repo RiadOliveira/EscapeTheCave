@@ -124,7 +124,7 @@ void Player::Update() {
     HandleMovePlayer(GetStateBasedOnWindowKey());
 
     if(window->KeyPress('Z') && bombsQuantity-- > 0) {
-        Bomb * playerBomb = new Bomb(PLAYED, bombImage);
+        Bomb * playerBomb = new Bomb(PLAYED);
         playerBomb->MoveTo(x, y);
         Game::GetScene()->Add(playerBomb, MOVING);
     }

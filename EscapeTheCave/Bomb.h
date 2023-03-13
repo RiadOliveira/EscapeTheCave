@@ -6,18 +6,23 @@
 #include "Timer.h"
 
 enum BOMBTYPE { PLAYED, GENERATED };
+enum BOMBSTATES { INITIAL, EXPLODING, EXPLODED };
 
 class Bomb : public Object {
     private:
+        float previousElapsedTime;
+
+        BOMBSTATES selectedSpriteState;
         bool hasExploded;
+        BOMBTYPE bombType;
 
         static Image * explosionImage;
-        Timer * timer = nullptr;
+        static Image ** bombImages;
 
-        Sprite * sprite = nullptr;
-        BOMBTYPE bombType;
+        Timer * timer = nullptr;
+        Sprite ** sprites = nullptr;
     public:
-        Bomb(BOMBTYPE bombType, Image * image);
+        Bomb(BOMBTYPE bombType);
         ~Bomb();
 
         void OnCollision(Object * obj);

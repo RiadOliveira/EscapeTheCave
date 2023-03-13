@@ -295,12 +295,6 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="FoodL1.txt" />
-    <Text Include="FoodL2.txt" />
-    <Text Include="PivotsL1.txt" />
-    <Text Include="PivotsL2.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="Pixel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

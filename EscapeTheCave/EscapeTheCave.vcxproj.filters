@@ -178,20 +178,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="FoodL1.txt">
-      <Filter>Game\Arquivos de Recurso</Filter>
-    </Text>
-    <Text Include="FoodL2.txt">
-      <Filter>Game\Arquivos de Recurso</Filter>
-    </Text>
-    <Text Include="PivotsL1.txt">
-      <Filter>Game\Arquivos de Recurso</Filter>
-    </Text>
-    <Text Include="PivotsL2.txt">
-      <Filter>Game\Arquivos de Recurso</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="Vertex.hlsl">
       <Filter>Engine\Arquivos de Sombreamento</Filter>
     </FxCompile>
