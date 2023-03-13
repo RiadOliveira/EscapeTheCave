@@ -4,18 +4,20 @@
 #include "Bomb.h"
 
 Player::Player(Battery * battery):
-    state(UP), bombsQuantity(1), battery(battery)
+    state(UP), bombsQuantity(1), battery(battery),
+    playerHasEscaped(false)
 {
     spriteUp = new Sprite("Resources/Player/PlayerUp.png");
     spriteDown = new Sprite("Resources/Player/PlayerDown.png");
     spriteLeft = new Sprite("Resources/Player/PlayerLeft.png");
     spriteRight = new Sprite("Resources/Player/PlayerRight.png");
     
-    BBox(new Rect(-56, -56, 56, 56));
-    MoveTo(window->CenterX() + 1, window->CenterY());
+    spriteSize = (float) spriteUp->Width();
+    float boxCoord = spriteSize/2;
 
+    BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
+    MoveTo(window->CenterX() + 1, window->CenterY());
     type = PLAYER;
-    spriteSize = (float) spriteUp->Width();    
 }
 
 Player::~Player() {

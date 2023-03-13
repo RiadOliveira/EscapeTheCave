@@ -20,6 +20,7 @@ class Player : public Object {
         float spriteSize;
         float speed = 120.0f;
 
+        bool playerHasEscaped;
         int bombsQuantity;
         PLAYERSTATE state;
 
@@ -29,6 +30,9 @@ class Player : public Object {
     public:
         Player(Battery * battery);
         ~Player();
+
+        bool PlayerHasEscaped();
+        void PlayerHasEscaped(bool hasEscaped);
 
         float SpriteSize();
         float BatteryEnergy();
@@ -40,6 +44,11 @@ class Player : public Object {
         void Update();
         void Draw();
 };
+
+inline bool Player::PlayerHasEscaped() { return playerHasEscaped; }
+inline void Player::PlayerHasEscaped(bool hasEscaped) {
+    playerHasEscaped = hasEscaped;
+}
 
 inline float Player::SpriteSize() { return spriteSize; }
 inline PLAYERSTATE Player::State() { return state; }

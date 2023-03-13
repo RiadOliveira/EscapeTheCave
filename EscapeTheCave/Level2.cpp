@@ -126,8 +126,8 @@ void Level2::Update() {
         Engine::Next<GameOver>();
     } else if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
-    } else if (window->KeyPress('N')) {
-        Engine::Next<GameOver>();
+    } else if (window->KeyPress('N') || player->PlayerHasEscaped()) {
+        Engine::Next<Home>();
     } else {
         scene->Update();
         scene->CollisionDetection();

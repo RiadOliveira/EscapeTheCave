@@ -22,14 +22,17 @@ Bomb::Bomb(BOMBTYPE bombType):
         explosionImage = new Image("Resources/Bomb/Explosion.png");
     }
 
-    timer = new Timer();
-    BBox(new Rect(-32, -32, 32, 32));
+
+    float boxCoord = (float) bombImages[0]->Width()/2;
+    BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
+
     sprites = new Sprite*[3] {
         new Sprite(bombImages[0]),
         new Sprite(bombImages[1]),
         new Sprite(explosionImage)
     };
 
+    timer = new Timer();
     type = BOMB;
 }
 

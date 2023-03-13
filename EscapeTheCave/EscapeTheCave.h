@@ -6,7 +6,8 @@ enum EscapeTheCaveObjects {
     PIVOT,
     STONE,
     MINING_POINT,
-    BOMB
+    BOMB,
+    ESCAPE_LADDER
 };
 
 #endif

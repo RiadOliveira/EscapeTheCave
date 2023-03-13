@@ -8,6 +8,7 @@
 #include "Pivot.h"
 #include "MiningPoint.h"
 #include "Bomb.h"
+#include "EscapeLadder.h"
 #include "random"
 
 using std::mt19937;
@@ -21,29 +22,30 @@ int * Level1::GetEscapePoint() {
     int stoneWidth = objectDefaultWidth;
     int halfStoneWidth = stoneWidth/2;
 
+    int xPosition, yPosition;
+    bool isUpOrLeft = dis(gen);
+
     if(isHorizontal) {
-        bool isLeft = dis(gen);
-        int xPosition = isLeft ?
+        xPosition = isUpOrLeft ?
             halfStoneWidth : window->Width() - halfStoneWidth;
 
         int verticalStonesAmount = window->Height() / stoneWidth;
         uniform_int_distribution<> yDis(0, verticalStonesAmount - 1);
-        int generatedValue = yDis(gen);
 
-        int yPosition = stoneWidth * generatedValue + stoneWidth;
-        return new int[xPosition, yPosition];
+        int generatedValue = yDis(gen);
+        yPosition = stoneWidth * generatedValue + halfStoneWidth;
+    } else {
+        yPosition = isUpOrLeft ?
+            halfStoneWidth : window->Height() - halfStoneWidth;
+
+        int horizontalStonesAmount = window->Width() / stoneWidth;
+        uniform_int_distribution<> xDis(0, horizontalStonesAmount - 1);
+
+        int generatedValue = xDis(gen);
+        xPosition = stoneWidth * generatedValue + halfStoneWidth;
     }
     
-    bool isUp = dis(gen);
-    int yPosition = isUp ?
-        halfStoneWidth : window->Height() - halfStoneWidth;
-
-    int horizontalStonesAmount = window->Width() / stoneWidth;
-    uniform_int_distribution<> xDis(0, horizontalStonesAmount - 1);
-    int generatedValue = xDis(gen);
-
-    int xPosition = stoneWidth * generatedValue + stoneWidth;
-    return new int[xPosition, yPosition];
+    return new int[2]{ xPosition, yPosition };
 }
 
 bool Level1::HasCreatedPivot(float positionX, float positionY) {
@@ -64,7 +66,10 @@ void Level1::CreateLevelStoneOrPivot(
     bool isEscapePoint
 ) {
     if(isEscapePoint) {
-        Stone * stone = new Stone(2, new Stone(2));
+        Stone * stone = new Stone(2, new EscapeLadder());
+        stone->MoveTo(positionX, positionY);
+        scene->Add(stone, STATIC);
+
         return;
     }
     if(HasCreatedPivot(positionX, positionY)) return;
@@ -127,7 +132,7 @@ void Level1::Update() {
         Engine::Next<GameOver>();
     } else if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
-    } else if (window->KeyPress('N')) {
+    } else if (window->KeyPress('N') || player->PlayerHasEscaped()) {
         Engine::Next<Level2>();
     } else {
         scene->Update();
