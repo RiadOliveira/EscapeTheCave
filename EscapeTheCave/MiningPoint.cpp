@@ -10,6 +10,7 @@ MiningPoint::MiningPoint(Player * player):
 {
     BBox(new Point(player->X(), player->Y()));
     type = MINING_POINT;
+    breakTimer = new Timer();
 }
 
 MiningPoint::~MiningPoint() {
@@ -21,11 +22,22 @@ void MiningPoint::OnCollision(Object * obj) {
 
 void MiningPoint::StoneCollision(Object * obj) {
     Stone * stone = (Stone *) obj;
-    
-    if(window->KeyPress(VK_SPACE) || window->KeyPress(VK_LBUTTON)){
+    bool isBreakingStone = window->KeyDown(VK_SPACE) || window->KeyDown(VK_LBUTTON);
+
+    if(collidingStone != stone || !isBreakingStone) {
+        collidingStone = stone;
+        breakTimer->Reset();
+        return;
+    }
+
+    float elapsed = breakTimer->Elapsed();
+    if(elapsed <= 0.0f) breakTimer->Start();
+    else if(elapsed >= 0.5f) {
         stone->DecreaseDurability();
-        collidingStone = nullptr;
-    } else collidingStone = stone;
+        breakTimer->Reset();
+
+        if(stone->IsBroken()) collidingStone = nullptr;
+    }
 }
 
 void MiningPoint::Update() {

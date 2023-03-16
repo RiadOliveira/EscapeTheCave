@@ -67,12 +67,12 @@ void Bomb::Update() {
 
     float elapsed = timer->Elapsed();
     if(hasExploded) {
-        if(elapsed >= 0.2) Game::GetScene()->Delete();
+        if(elapsed >= 0.2f) Game::GetScene()->Delete();
         return;
     }
 
     if(elapsed >= 3.0f) {
-        BBox(new Circle(90.0f));
+        BBox(new Circle(180.0f));
         selectedSpriteState = EXPLODED;
 
         hasExploded = true;
@@ -80,7 +80,7 @@ void Bomb::Update() {
         return;
     }
 
-    if(elapsed >= previousElapsedTime + 0.3) {
+    if(elapsed >= previousElapsedTime + 0.3f) {
         previousElapsedTime = elapsed;
         selectedSpriteState = 
             selectedSpriteState == INITIAL ? EXPLODING : INITIAL;

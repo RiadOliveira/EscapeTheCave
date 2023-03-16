@@ -8,6 +8,7 @@ EscapeLadder::EscapeLadder(): playerHasEscaped(false) {
 
     float boxCoord = (float) sprite->Width()/2;
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
+
     type = ESCAPE_LADDER;
     timer = new Timer();
 }
@@ -18,6 +19,7 @@ EscapeLadder::~EscapeLadder() {
 
 void EscapeLadder::OnCollision(Object * obj) {
     if(obj->Type() != PLAYER) return;
+
     if(timer->NotStarted()) {
         timer->Start();
         return;

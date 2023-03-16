@@ -7,6 +7,8 @@
 
 class MiningPoint : public Object {
     private:
+        Timer * breakTimer;
+    
         float distanceToPlayer;
         Player * player = nullptr;
         Stone * collidingStone = nullptr;
