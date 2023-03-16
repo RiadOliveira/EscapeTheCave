@@ -2,10 +2,11 @@
 #include "Player.h"
 #include "Stone.h"
 #include "Bomb.h"
+#include "GameLevel.h"
 
 Player::Player(Battery * battery):
-    state(UP), bombsQuantity(1), battery(battery),
-    playerHasEscaped(false)
+    state(RIGHT), bombsQuantity(1), battery(battery),
+    playerHasEscaped(false), speed(120.0f), miningSpeed(0.5f)
 {
     spriteUp = new Sprite("Resources/Player/PlayerUp.png");
     spriteDown = new Sprite("Resources/Player/PlayerDown.png");
@@ -20,11 +21,20 @@ Player::Player(Battery * battery):
     type = PLAYER;
 }
 
+void Player::ResetDataToNewLevel() {
+    state = RIGHT;
+    playerHasEscaped = false;
+    battery->ResetDataToNewLevel();
+
+    MoveTo(window->CenterX() + 1, window->CenterY());
+}
+
 Player::~Player() {
     delete spriteUp;
     delete spriteDown;
     delete spriteLeft;
     delete spriteRight;
+    delete battery;
 }
 
 void Player::OnCollision(Object * obj) {
@@ -127,7 +137,7 @@ void Player::Update() {
     if(window->KeyPress('Z') && bombsQuantity-- > 0) {
         Bomb * playerBomb = new Bomb(PLAYED);
         playerBomb->MoveTo(x, y);
-        Game::GetScene()->Add(playerBomb, MOVING);
+        GameLevel::GetScene()->Add(playerBomb, MOVING);
     }
 }
 

@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Window (Código Fonte)
+// Window (Cï¿½digo Fonte)
 // 
-// Criação:     19 Mai 2007
-// Atualização: 08 Fev 2023
+// Criaï¿½ï¿½o:     19 Mai 2007
+// Atualizaï¿½ï¿½o: 08 Fev 2023
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   A classe abstrai todos os detalhes de configuração de
+// Descriï¿½ï¿½o:   A classe abstrai todos os detalhes de configuraï¿½ï¿½o de
 //              uma janela para um jogo. 
 //
 **********************************************************************************/
@@ -14,29 +14,29 @@
 #include "Engine.h"
 
 // -------------------------------------------------------------------------------
-// Inicialização de membros estáticos da classe
+// Inicializaï¿½ï¿½o de membros estï¿½ticos da classe
 bool Window::windowKeys[256] = { 0 };                       // estado do teclado/mouse
 bool Window::windowCtrl[256] = { 0 };                       // controle de teclado/mouse
-int  Window::windowMouseX = 0;                              // posição do mouse no eixo x
-int  Window::windowMouseY = 0;                              // posição do mouse no eixo y
+int  Window::windowMouseX = 0;                              // posiï¿½ï¿½o do mouse no eixo x
+int  Window::windowMouseY = 0;                              // posiï¿½ï¿½o do mouse no eixo y
 
 // -------------------------------------------------------------------------------
 // Construtor
 
 Window::Window()
 {
-    hInstance       = GetModuleHandle(NULL);                // identificador da aplicação
+    hInstance       = GetModuleHandle(NULL);                // identificador da aplicaï¿½ï¿½o
     windowHandle    = 0;                                    // identificador da janela do jogo
     windowWidth     = GetSystemMetrics(SM_CXSCREEN);        // a janela ocupa toda a tela (tela cheia)
     windowHeight    = GetSystemMetrics(SM_CYSCREEN);        // a janela ocupa toda a tela (tela cheia)
-    windowIcon      = LoadIcon(NULL, IDI_APPLICATION);      // ícone padrão de uma aplicação
-    windowCursor    = LoadCursor(NULL, IDC_ARROW);          // cursor padrão de uma aplicação
-    windowColor     = RGB(0,0,0);                           // cor de fundo padrão é preta
-    windowTitle     = string("Windows Game");               // título padrão da janela
+    windowIcon      = LoadIcon(NULL, IDI_APPLICATION);      // ï¿½cone padrï¿½o de uma aplicaï¿½ï¿½o
+    windowCursor    = LoadCursor(NULL, IDC_ARROW);          // cursor padrï¿½o de uma aplicaï¿½ï¿½o
+    windowColor     = RGB(0,0,0);                           // cor de fundo padrï¿½o ï¿½ preta
+    windowTitle     = string("Windows Game");               // tï¿½tulo padrï¿½o da janela
     windowStyle     = WS_POPUP | WS_VISIBLE;                // estilo para tela cheia
-    windowMode      = FULLSCREEN;                           // modo padrão é tela cheia
-    windowPosX      = 0;                                    // posição inicial da janela no eixo x
-    windowPosY      = 0;                                    // posição inicial da janela no eixo y
+    windowMode      = FULLSCREEN;                           // modo padrï¿½o ï¿½ tela cheia
+    windowPosX      = 0;                                    // posiï¿½ï¿½o inicial da janela no eixo x
+    windowPosY      = 0;                                    // posiï¿½ï¿½o inicial da janela no eixo y
     windowCenterX   = windowWidth/2.0f;                     // centro da janela no eixo x
     windowCenterY   = windowHeight/2.0f;                    // centro da janela no eixo y
 }
@@ -67,11 +67,11 @@ void Window::Size(int width, int height)
     windowWidth = width; 
     windowHeight = height;
 
-    // calcula a posição do centro da janela
+    // calcula a posiï¿½ï¿½o do centro da janela
     windowCenterX = windowWidth / 2.0f;
     windowCenterY = windowHeight / 2.0f;
 
-    // ajusta a posição da janela para o centro da tela
+    // ajusta a posiï¿½ï¿½o da janela para o centro da tela
     windowPosX = GetSystemMetrics(SM_CXSCREEN)/2 - windowWidth/2;
     windowPosY = GetSystemMetrics(SM_CYSCREEN)/2 - windowHeight/2;
 }
@@ -124,46 +124,46 @@ bool Window::Create()
     windowHandle = CreateWindowEx(
         NULL,                           // estilos extras
         "GameWindow",                   // nome da "window class"
-        windowTitle.c_str(),            // título da janela
+        windowTitle.c_str(),            // tï¿½tulo da janela
         windowStyle,                    // estilo da janela
-        windowPosX, windowPosY,         // posição (x,y) inicial
+        windowPosX, windowPosY,         // posiï¿½ï¿½o (x,y) inicial
         windowWidth, windowHeight,      // largura e altura da janela
         NULL,                           // identificador da janela pai
         NULL,                           // identificador do menu
-        hInstance,                      // identificador da aplicação
-        NULL);                          // parâmetros de criação
+        hInstance,                      // identificador da aplicaï¿½ï¿½o
+        NULL);                          // parï¿½metros de criaï¿½ï¿½o
 
-    // Ao usar o modo em janela é preciso levar em conta que as barras 
-    // e bordas ocupam espaço na janela. O código abaixo ajusta o tamanho
-    // da janela de forma que a área cliente do jogo fique no tamanho 
+    // Ao usar o modo em janela ï¿½ preciso levar em conta que as barras 
+    // e bordas ocupam espaï¿½o na janela. O cï¿½digo abaixo ajusta o tamanho
+    // da janela de forma que a ï¿½rea cliente do jogo fique no tamanho 
     // (windowWidth x windowHeight)
 
     if (windowMode == WINDOWED)
     {
-        // retângulo com o tamanho da área cliente desejada
+        // retï¿½ngulo com o tamanho da ï¿½rea cliente desejada
         RECT winRect = {0, 0, windowWidth, windowHeight};
 
-        // ajusta o tamanho do retângulo
+        // ajusta o tamanho do retï¿½ngulo
         AdjustWindowRectEx(&winRect,
             GetWindowStyle(windowHandle),
             GetMenu(windowHandle) != NULL,
             GetWindowExStyle(windowHandle));
 
-        // atualiza posição da janela
+        // atualiza posiï¿½ï¿½o da janela
         windowPosX = GetSystemMetrics(SM_CXSCREEN)/2 - (winRect.right - winRect.left)/2;
         windowPosY = GetSystemMetrics(SM_CYSCREEN)/2 - (winRect.bottom - winRect.top)/2;
 
         // redimensiona janela com uma chamada a MoveWindow
         MoveWindow(
             windowHandle,                  // identificador da janela
-            windowPosX,                    // posição x
-            windowPosY,                    // posição y
+            windowPosX,                    // posiï¿½ï¿½o x
+            windowPosY,                    // posiï¿½ï¿½o y
             winRect.right - winRect.left,  // largura
             winRect.bottom - winRect.top,  // altura
             TRUE);                         // repintar
     }
 
-    // retorna estado da inicialização (bem sucedida ou não)
+    // retorna estado da inicializaï¿½ï¿½o (bem sucedida ou nï¿½o)
     return (windowHandle ? true : false);
 }
 
@@ -189,40 +189,40 @@ LRESULT CALLBACK Window::WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
         windowMouseY = GET_Y_LPARAM(lParam);
         return 0;
 
-        // botão esquerdo do mouse pressionado
+        // botï¿½o esquerdo do mouse pressionado
     case WM_LBUTTONDOWN:
     case WM_LBUTTONDBLCLK:
         windowKeys[VK_LBUTTON] = true;
         return 0;
 
-        // botão do meio do mouse pressionado
+        // botï¿½o do meio do mouse pressionado
     case WM_MBUTTONDOWN:
     case WM_MBUTTONDBLCLK:
         windowKeys[VK_MBUTTON] = true;
         return 0;
 
-        // botão direito do mouse pressionado
+        // botï¿½o direito do mouse pressionado
     case WM_RBUTTONDOWN:
     case WM_RBUTTONDBLCLK:
         windowKeys[VK_RBUTTON] = true;
         return 0;
 
-        // botão esquerdo do mouse liberado
+        // botï¿½o esquerdo do mouse liberado
     case WM_LBUTTONUP:
         windowKeys[VK_LBUTTON] = false;
         return 0;
 
-        // botão do meio do mouse liberado
+        // botï¿½o do meio do mouse liberado
     case WM_MBUTTONUP:
         windowKeys[VK_MBUTTON] = false;
         return 0;
 
-        // botão direito do mouse liberado
+        // botï¿½o direito do mouse liberado
     case WM_RBUTTONUP:
         windowKeys[VK_RBUTTON] = false;
         return 0;
 
-        // mudança de foco da janela
+        // mudanï¿½a de foco da janela
     case WM_SETFOCUS:
         Engine::Resume();
         return 0;

@@ -1,23 +1,23 @@
-#include "EscapeLadder.h"
+#include "Generator.h"
 #include "Player.h"
 #include "Game.h"
 #include "EscapeTheCave.h"
 
-EscapeLadder::EscapeLadder(): playerHasEscaped(false) {
-    sprite = new Sprite("Resources/Ladder.png");
+Generator::Generator(): playerHasEscaped(false) {
+    sprite = new Sprite("Resources/Generator.png");
 
     float boxCoord = (float) sprite->Width()/2;
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
 
-    type = ESCAPE_LADDER;
+    type = GENERATOR;
     timer = new Timer();
 }
 
-EscapeLadder::~EscapeLadder() {
+Generator::~Generator() {
     delete sprite;
 }
 
-void EscapeLadder::OnCollision(Object * obj) {
+void Generator::OnCollision(Object * obj) {
     if(obj->Type() != PLAYER) return;
 
     if(timer->NotStarted()) {
@@ -30,9 +30,9 @@ void EscapeLadder::OnCollision(Object * obj) {
     player->PlayerHasEscaped(true);
 }
 
-void EscapeLadder::Update() {
+void Generator::Update() {
 }
 
-void EscapeLadder::Draw() {
+void Generator::Draw() {
     sprite->Draw(x, y, Layer::UPPER);
 }

@@ -1,21 +1,20 @@
-#ifndef _ESCAPETHECAVE_ESCAPELADDER_H_
-#define _ESCAPETHECAVE_ESCAPELADDER_H_
+#ifndef _ESCAPETHECAVE_GENERATOR_H_
+#define _ESCAPETHECAVE_GENERATOR_H_
 
 #include "Types.h"
 #include "Object.h"
 #include "Sprite.h"
-#include "Image.h"
 #include "Timer.h"
 
-class EscapeLadder : public Object {
+class Generator : public Object {
     private:
         Sprite * sprite = nullptr;
         Timer * timer = nullptr;
         
         bool playerHasEscaped;
     public:
-        EscapeLadder();
-        ~EscapeLadder();
+        Generator();
+        ~Generator();
 
         bool PlayerHasEscaped();
         void OnCollision(Object * obj);
@@ -24,6 +23,6 @@ class EscapeLadder : public Object {
         void Draw();
 };
 
-inline bool EscapeLadder::PlayerHasEscaped() { return playerHasEscaped; }
+inline bool Generator::PlayerHasEscaped() { return playerHasEscaped; }
 
 #endif

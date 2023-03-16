@@ -8,12 +8,10 @@ class Game {
     protected:
         static Window* & window;
         static float   & gameTime;
-        static Scene*  scene;
     public:
         Game();
         virtual ~Game();
         
-        static Scene* GetScene();
         virtual void OnPause();
 
         virtual void Init() = 0;
@@ -21,7 +19,5 @@ class Game {
         virtual void Draw() = 0;
         virtual void Finalize() = 0;
 };
-
-inline Scene* Game::GetScene() { return scene; }
 
 #endif

@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include "Home.h"
-#include "Level1.h"
+#include "GameLevel.h"
 
 void Home::Init() {
     backg = new Sprite("Resources/TitleScreen.png");
@@ -12,7 +12,7 @@ void Home::Finalize() {
 
 void Home::Update() {
     if (window->KeyPress(VK_ESCAPE)) window->Close();
-    if (window->KeyPress(VK_RETURN)) Engine::Next<Level1>();
+    if (window->KeyPress(VK_RETURN)) Engine::Next<GameLevel>();
 }
 
 void Home::Draw() {

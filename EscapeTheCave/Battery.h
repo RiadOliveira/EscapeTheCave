@@ -8,7 +8,7 @@
 
 class Battery : public Object {
     private:
-        const float maxEnergy = 100.0f;
+        static const float maxEnergy;
         static const uint spritesQuantity = 8;
 
         Timer * timer = nullptr;
@@ -24,6 +24,7 @@ class Battery : public Object {
         Battery();
         ~Battery();
 
+        void ResetDataToNewLevel();
         float Energy();
         float MaxEnergy();
 

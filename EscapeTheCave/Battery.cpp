@@ -1,7 +1,9 @@
 #include "Battery.h"
 #include "Engine.h"
 
-Battery::Battery(): energy(100.0f) {
+const float Battery::maxEnergy = 100.0f;
+
+Battery::Battery(): energy(maxEnergy) {
     sprites = new Sprite*[spritesQuantity];
     string spritesPath = "Resources/Battery/Battery";
 
@@ -17,6 +19,12 @@ Battery::Battery(): energy(100.0f) {
 
     timer = new Timer();
     timer->Start();
+}
+
+void Battery::ResetDataToNewLevel() {
+    energy = maxEnergy;
+    selectedSpriteIndex = spritesQuantity - 1;
+    timer->Reset();
 }
 
 Battery::~Battery() {

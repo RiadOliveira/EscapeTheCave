@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Stone.h"
 #include "Image.h"
+#include "GameLevel.h"
 
 Image * Bomb::explosionImage = nullptr;
 Image ** Bomb::bombImages = nullptr;
@@ -67,11 +68,11 @@ void Bomb::Update() {
 
     float elapsed = timer->Elapsed();
     if(hasExploded) {
-        if(elapsed >= 0.2f) Game::GetScene()->Delete();
+        if(elapsed >= 0.2f) GameLevel::GetScene()->Delete();
         return;
     }
 
-    if(elapsed >= 3.0f) {
+    if(elapsed >= 2.0f) {
         BBox(new Circle(180.0f));
         selectedSpriteState = EXPLODED;
 

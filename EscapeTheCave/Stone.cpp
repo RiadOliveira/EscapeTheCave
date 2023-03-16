@@ -1,6 +1,6 @@
 #include "Stone.h"
 #include "Player.h"
-#include "Game.h"
+#include "GameLevel.h"
 #include "Pivot.h"
 #include "EscapeTheCave.h"
 
@@ -38,12 +38,12 @@ Stone::Stone(uint maxDurability, Object * dropingItem):
 Stone::~Stone() {
     if(dropingItem) {
         dropingItem->MoveTo(x, y);
-        Game::GetScene()->Add(dropingItem, STATIC);
+        GameLevel::GetScene()->Add(dropingItem, STATIC);
     }
 
     Pivot * pivot = new Pivot();
     pivot->MoveTo(x, y);
-    Game::GetScene()->Add(pivot, STATIC);
+    GameLevel::GetScene()->Add(pivot, STATIC);
 
     for(uint ind=0 ; ind<spritesQuantity ; ind++) {
         delete sprites[ind];
@@ -55,7 +55,7 @@ void Stone::OnCollision(Object * obj) {
 }
 
 void Stone::Update() {
-    if(durability == 0) Game::GetScene()->Delete();
+    if(durability == 0) GameLevel::GetScene()->Delete();
 }
 
 void Stone::Draw() {

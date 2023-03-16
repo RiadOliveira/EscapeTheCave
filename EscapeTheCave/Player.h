@@ -18,7 +18,8 @@ class Player : public Object {
         Sprite * spriteRight = nullptr;
 
         float spriteSize;
-        float speed = 120.0f;
+        float speed;
+        float miningSpeed;
 
         bool playerHasEscaped;
         int bombsQuantity;
@@ -30,6 +31,9 @@ class Player : public Object {
     public:
         Player(Battery * battery);
         ~Player();
+
+        Battery * GetBattery();
+        void ResetDataToNewLevel();
 
         bool PlayerHasEscaped();
         void PlayerHasEscaped(bool hasEscaped);
@@ -44,6 +48,8 @@ class Player : public Object {
         void Update();
         void Draw();
 };
+
+inline Battery* Player::GetBattery() { return battery; }
 
 inline bool Player::PlayerHasEscaped() { return playerHasEscaped; }
 inline void Player::PlayerHasEscaped(bool hasEscaped) {

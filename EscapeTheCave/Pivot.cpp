@@ -1,7 +1,7 @@
 #include "EscapeTheCave.h"
 #include "Pivot.h"
-#include "Player.h"
 #include "Bomb.h"
+#include "Player.h"
 
 Pivot::Pivot() {
     BBox(new Rect(-60, -60, 60, 60));
@@ -18,7 +18,7 @@ void Pivot::OnCollision(Object * obj) {
 
 void Pivot::PlayerCollision(Object * obj) {
     Player * player = (Player *) obj;
-    
+
     float xDifference = abs(player->X() - x);
     float yDifference = abs(player->Y() - y);
     bool closeEnough = xDifference < 60 && yDifference < 60;

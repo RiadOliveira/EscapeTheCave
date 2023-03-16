@@ -7,7 +7,7 @@ enum EscapeTheCaveObjects {
     STONE,
     MINING_POINT,
     BOMB,
-    ESCAPE_LADDER
+    GENERATOR
 };
 
 #endif
