@@ -6,6 +6,8 @@
 
 class Game {
     protected:
+        static uint level;
+
         static Window* & window;
         static float   & gameTime;
     public:

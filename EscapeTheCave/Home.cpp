@@ -4,6 +4,7 @@
 
 void Home::Init() {
     backg = new Sprite("Resources/TitleScreen.png");
+    level = 0;
 }
 
 void Home::Finalize() {

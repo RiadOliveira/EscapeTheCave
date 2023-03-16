@@ -16,7 +16,6 @@ class GameLevel : public Game {
         Sprite * backg = nullptr;
         bool viewBBox = false;
 
-        static uint level;
         static Player* player;
         static Scene* scene;
 

@@ -13,7 +13,6 @@
 using std::mt19937;
 using std::uniform_int_distribution;
 
-uint      GameLevel::level    = 0;
 Player*   GameLevel::player   = nullptr;
 Scene*    GameLevel::scene    = nullptr;
 
