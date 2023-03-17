@@ -32,13 +32,11 @@ void MiningPoint::StoneCollision(Object * obj) {
         return;
     }
 
-    float elapsed = breakTimer->Elapsed();
-    if(elapsed <= 0.0f) breakTimer->Start();
-    else if(elapsed >= player->MiningSpeed()) {
+    if(breakTimer->Elapsed() >= player->MiningSpeed()) {
         stone->DecreaseDurability();
-        breakTimer->Reset();
-
         if(stone->IsBroken()) collidingStone = nullptr;
+
+        breakTimer->Reset();
     }
 }
 

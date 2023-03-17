@@ -19,6 +19,8 @@ class Player : public Object {
 
         float spriteSize;
         float speed;
+
+        const float maxMiningSpeed = 0.1f;
         float miningSpeed;
 
         bool gentleBotMode;
@@ -68,7 +70,7 @@ inline void Player::BuffSpeed() { speed += 10; }
 inline void Player::BuffBatteryTime() { battery->BuffBatteryBarTime(); }
 inline void Player::BuffMiningSpeed() {
     miningSpeed -= 0.05f;
-    if(miningSpeed <= 0.0f) miningSpeed = 0.0f;
+    if(miningSpeed <= maxMiningSpeed) miningSpeed = maxMiningSpeed;
 }
 
 inline Battery* Player::GetBattery() { return battery; }

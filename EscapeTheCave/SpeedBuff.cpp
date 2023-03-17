@@ -3,6 +3,7 @@
 #include "SpeedBuff.h"
 #include "Player.h"
 #include "GameLevel.h"
+#include "Bomb.h"
 
 Image * SpeedBuff::image = nullptr;
 
@@ -23,14 +24,22 @@ SpeedBuff::~SpeedBuff() {
 
 void SpeedBuff::OnCollision(Object * obj) {
     if(hasToBeDestroyed) return;
-    bool isPlayer = obj->Type() == PLAYER;
-    bool isBomb = obj->Type() == BOMB;
+    uint objType = obj->Type();
 
-    if(isPlayer) {
+    if(objType == PLAYER) {
         Player * player = (Player *) obj;
-        player->BuffBatteryTime();
+        player->BuffSpeed();
+        hasToBeDestroyed = true;
+
+        return;
     }
-    if(isPlayer || isBomb) hasToBeDestroyed = true;
+
+    if(objType == BOMB) {
+        Bomb * bomb = (Bomb *) obj;
+        if(bomb->BombType() == GENERATED) hasToBeDestroyed = true;
+
+        return;
+    }
 }
 
 void SpeedBuff::Update() {

@@ -46,7 +46,7 @@ inline void Battery::RechargeBattery() {
 }
 
 inline void Battery::DecreaseEnergyBar() {
-    if(selectedSpriteIndex <= 0) {
+    if(selectedSpriteIndex == 0) {
         energy = 0.0f;
         return;
     }
@@ -56,7 +56,7 @@ inline void Battery::DecreaseEnergyBar() {
 }
 
 inline void Battery::BuffBatteryBarTime() {
-    timeOfOneBatteryBar += 0.5f;
+    timeOfOneBatteryBar += 1.0f;
 }
 
 inline float Battery::GetXPosition() {
