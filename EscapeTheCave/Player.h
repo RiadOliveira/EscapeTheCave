@@ -13,25 +13,31 @@ class Player : public Object {
     private:
         Battery * battery = nullptr;
         Radar * radar = nullptr;
+
         Sprite ** sprites = nullptr;
+        Sprite ** gentleBotSprites = nullptr;
 
         float spriteSize;
         float speed;
         float miningSpeed;
 
+        bool gentleBotMode;
         bool playerHasEscaped;
+
         int bombsQuantity;
         PLAYERSTATE state;
 
         PLAYERSTATE GetStateBasedOnWindowKey();
         void HandleMovePlayer(PLAYERSTATE updatedState);
         void VerifyAndMovePlayerIfExceededWindow();
+        void SetPlayerSprites();
     public:
         Player();
         ~Player();
 
         Battery * GetBattery();
         void ResetDataToNewLevel(int levelBombsQuantity);
+        void ActivateGentleBotMode();
 
         void AddToScene();
         void RemoveFromScene();

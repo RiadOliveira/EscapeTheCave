@@ -88,6 +88,6 @@ void Radar::Draw() {
     }
 
     if(showingRadar) {
-        sprites[radarDirection]->Draw(positionX, positionY, Layer::FRONT);
+        sprites[radarDirection]->Draw(positionX, positionY, Layer::UPPER);
     }
 }

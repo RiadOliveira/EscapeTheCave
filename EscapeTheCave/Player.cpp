@@ -5,11 +5,7 @@
 #include "GameLevel.h"
 #include "MiningPoint.h"
 
-Player::Player():
-    state(RIGHT), battery(new Battery()), radar(new Radar()),
-    bombsQuantity(1), playerHasEscaped(false),
-    speed(120.0f), miningSpeed(0.5f)
-{
+void Player::SetPlayerSprites() {
     string spritesPath = "Resources/Player";
     sprites = new Sprite*[4];
 
@@ -19,6 +15,15 @@ Player::Player():
     sprites[RIGHT] = new Sprite(spritesPath + "/PlayerRight.png");
 
     spriteSize = (float) sprites[UP]->Width();
+}
+
+Player::Player():
+    state(RIGHT), battery(new Battery()), radar(new Radar()),
+    bombsQuantity(1), playerHasEscaped(false), gentleBotMode(false),
+    speed(120.0f), miningSpeed(0.5f)
+{
+    SetPlayerSprites();
+
     float boxCoord = spriteSize/2;
 
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
@@ -29,8 +34,10 @@ Player::Player():
 Player::~Player() {
     for(int ind=0 ; ind<4 ; ind++) {
         delete sprites[ind];
+        if(gentleBotMode) delete gentleBotSprites[ind];
     }
     delete[] sprites;
+    if(gentleBotMode) delete[] gentleBotSprites;
 
     delete battery;
     delete radar;
@@ -42,8 +49,22 @@ void Player::ResetDataToNewLevel(int levelBombsQuantity) {
     battery->ResetDataToNewLevel();
     radar->ResetDataToNewLevel();
     bombsQuantity = levelBombsQuantity;
+    gentleBotMode = false;
 
     MoveTo(window->CenterX() + 1, window->CenterY());
+}
+
+void Player::ActivateGentleBotMode() {
+    gentleBotSprites = new Sprite*[4];
+    string spritesPath = "Resources/Player";
+
+    gentleBotSprites[UP] = new Sprite(spritesPath + "/GentleBotUp.png");
+    gentleBotSprites[DOWN] = new Sprite(spritesPath + "/GentleBotDown.png");
+    gentleBotSprites[LEFT] = new Sprite(spritesPath + "/GentleBotLeft.png");
+    gentleBotSprites[RIGHT] = new Sprite(spritesPath + "/GentleBotRight.png");
+
+    battery->RechargeBattery();
+    gentleBotMode = true;
 }
 
 void Player::AddToScene() {
@@ -61,6 +82,12 @@ void Player::RemoveFromScene() {
     scene->Remove(this, MOVING);
     scene->Remove(battery, STATIC);
     scene->Remove(radar, STATIC);
+    if(!gentleBotMode) return;
+
+    for(int ind=0 ; ind<4 ; ind++) {
+        delete gentleBotSprites[ind];
+    }
+    delete[] gentleBotSprites;
 }
 
 void Player::OnCollision(Object * obj) {
@@ -170,5 +197,9 @@ void Player::Update() {
 }
 
 void Player::Draw() {
-    if(state != NONE) sprites[state]->Draw(x, y, Layer::UPPER);
+    if(state == NONE) return;
+    Sprite * selectedSprite = 
+        gentleBotMode ? gentleBotSprites[state] : sprites[state];
+
+    selectedSprite->Draw(x, y, Layer::UPPER);
 }

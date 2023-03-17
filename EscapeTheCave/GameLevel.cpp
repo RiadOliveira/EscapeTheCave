@@ -11,6 +11,7 @@
 #include "BatteryBuff.h"
 #include "SpeedBuff.h"
 #include "MiningBuff.h"
+#include "ChadBuff.h"
 #include "random"
 
 using std::mt19937;
@@ -68,6 +69,7 @@ bool GameLevel::HasCreatedPivot(float positionX, float positionY) {
 }
 
 Object * GameLevel::GenerateDroppableItem(int generatedNumber) {
+    if(generatedNumber <= 1) return new ChadBuff();
     if(generatedNumber <= 75) return nullptr;
     if(generatedNumber <= 85) return new Bomb(GENERATED);
     if(generatedNumber <= 90) return new SpeedBuff();

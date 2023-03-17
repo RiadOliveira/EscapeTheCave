@@ -25,6 +25,7 @@ class Battery : public Object {
         Battery();
         ~Battery();
 
+        void RechargeBattery();
         void DecreaseEnergyBar();
         void BuffBatteryBarTime();
         void ResetDataToNewLevel();
@@ -37,6 +38,12 @@ class Battery : public Object {
         void Update();
         void Draw();
 };
+
+inline void Battery::RechargeBattery() {
+    energy = maxEnergy;
+    selectedSpriteIndex = spritesQuantity - 1;
+    timer->Reset();
+}
 
 inline void Battery::DecreaseEnergyBar() {
     if(energy <= 0.0f || selectedSpriteIndex <= 0) return;
