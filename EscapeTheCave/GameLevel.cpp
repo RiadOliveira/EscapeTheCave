@@ -125,7 +125,7 @@ void GameLevel::RenderLevelStonesAndPivots() {
 
 void GameLevel::Init() {
     scene = new Scene();
-    backg = new Sprite("Resources/LevelBackground.jpg");
+    backg = new Sprite("Resources/LevelBackground.png");
 
     if(player == nullptr) player = new Player();
     else player->ResetDataToNewLevel(level + 1);
