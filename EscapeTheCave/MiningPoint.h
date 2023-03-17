@@ -14,7 +14,6 @@ class MiningPoint : public Object {
         Stone * collidingStone = nullptr;
 
         PLAYERSTATE previousState;
-        uint GetBorderColor();
     public:
         MiningPoint();
         ~MiningPoint();

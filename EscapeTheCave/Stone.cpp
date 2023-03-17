@@ -6,7 +6,7 @@
 
 Image ** Stone::stoneImages = nullptr;
 
-Stone::Stone(uint maxDurability):
+Stone::Stone(int maxDurability):
     maxDurability(maxDurability), durability(maxDurability)
 {
     if(stoneImages == nullptr) {
@@ -20,7 +20,7 @@ Stone::Stone(uint maxDurability):
 
     spritesQuantity = maxDurability > 4 ? 4 : maxDurability;
     sprites = new Sprite*[spritesQuantity];
-    for(uint ind=0 ; ind<spritesQuantity ; ind++) {
+    for(int ind=0 ; ind<spritesQuantity ; ind++) {
         sprites[ind] = new Sprite(stoneImages[ind]);
     }
 
@@ -31,7 +31,7 @@ Stone::Stone(uint maxDurability):
     type = STONE;
 }
 
-Stone::Stone(uint maxDurability, Object * dropingItem):
+Stone::Stone(int maxDurability, Object * dropingItem):
     Stone(maxDurability)
 {
     this->dropingItem = dropingItem;
@@ -39,21 +39,38 @@ Stone::Stone(uint maxDurability, Object * dropingItem):
 
 Stone::~Stone() {
     if(dropingItem) {
+        int parsedType = dropingItem->Type() == BOMB ? MOVING : STATIC;
+
         dropingItem->MoveTo(x, y);
-        GameLevel::GetScene()->Add(dropingItem, MOVING);
+        GameLevel::GetScene()->Add(dropingItem, parsedType);
     }
 
     Pivot * pivot = new Pivot();
     pivot->MoveTo(x, y);
     GameLevel::GetScene()->Add(pivot, STATIC);
 
-    for(uint ind=0 ; ind<spritesQuantity ; ind++) {
+    for(int ind=0 ; ind<spritesQuantity ; ind++) {
         delete sprites[ind];
     }
     delete [] sprites;
 }
 
+void Stone::DecreaseDurabilityByMaxPercentage(float percentage) {
+    if(durability == 0) return;
+    int durabilityReduction = ceil(percentage * (float) maxDurability);
+
+    durability -= durabilityReduction;
+    durability = durability <= 0 ? 0 : durability;
+}
+
 void Stone::OnCollision(Object * obj) {
+    if(obj->Type() != BOMB) return;
+    
+    Bomb * bomb = (Bomb *) obj;
+    if(bomb == collidingBomb || bomb->BombType() == GENERATED) return;
+
+    DecreaseDurabilityByMaxPercentage(0.75f);
+    collidingBomb = bomb;
 }
 
 void Stone::Update() {

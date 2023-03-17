@@ -71,29 +71,12 @@ void MiningPoint::Update() {
     previousState = updatedState;
 }
 
-uint MiningPoint::GetBorderColor() {
-    uint whiteColor = 0xffffffff;
-    if(collidingStone->MaxDurability() == 1) {
-        return whiteColor;
-    }
-
-    float durabilityProportion = 
-        (float) collidingStone->Durability() /
-        (float) collidingStone->MaxDurability();
-
-    if(durabilityProportion <= 0.5f) return whiteColor;
-    if(durabilityProportion <= 0.6f) return 0xff555555;
-    if(durabilityProportion <= 0.8f) return 0xff333333;
-    if(durabilityProportion <= 0.9f) return 0xff111111;
-    return 0xff000000;
-}
-
 void MiningPoint::Draw() {
-    if(!collidingStone) return;
+    if(collidingStone == nullptr) return;
 
     Engine::renderer->BeginPixels();
     Engine::renderer->Draw(
-        collidingStone->BBox(), GetBorderColor()
+        collidingStone->BBox(), 0xffffffff
     );
     Engine::renderer->EndPixels();
 }

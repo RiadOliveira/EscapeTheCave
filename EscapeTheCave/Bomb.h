@@ -32,7 +32,6 @@ class Bomb : public Object {
         BOMBTYPE BombType();
     
         void OnCollision(Object * obj);
-        void StoneCollision(Object * obj);
         void PlayerCollision(Object * obj);
 
         void Update();

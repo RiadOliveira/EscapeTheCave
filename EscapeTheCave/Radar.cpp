@@ -27,7 +27,7 @@ Radar::~Radar() {
 }
 
 void Radar::ActivateRadar() {
-    if(!timer->NotStarted() && timer->Elapsed() <= 3.0f) return;
+    if(radarDirection != DISABLED) return;
 
     Player * player = GameLevel::GetPlayer();
     player->GetBattery()->DecreaseEnergyBar();
@@ -64,7 +64,7 @@ void Radar::Update() {
         return;
     }
 
-    float elapsedDifference = showingRadar ? 0.5f : 0.3f;
+    float elapsedDifference = showingRadar ? 0.5f : 0.25f;
     if (elapsed >= previousElapsedTime + elapsedDifference) {
         previousElapsedTime = elapsed;
         showingRadar = !showingRadar;
@@ -76,7 +76,7 @@ void Radar::Draw() {
     Player * player = GameLevel::GetPlayer();
 
     float positionX, positionY;
-    float distanceFromPlayer = player->SpriteSize()/2 + 32.0f;
+    float distanceFromPlayer = player->SpriteSize() - 16.0f;
 
     if(radarDirection == RADAR_UP || radarDirection == RADAR_DOWN) {
         positionX = player->X();

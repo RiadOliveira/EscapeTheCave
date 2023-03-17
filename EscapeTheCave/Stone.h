@@ -5,42 +5,43 @@
 #include "Object.h"
 #include "Sprite.h"
 #include "Image.h"
+#include "Bomb.h"
 
 class Stone : public Object {
     private:
         Sprite ** sprites = nullptr;
         Object * dropingItem = nullptr;
+        Bomb * collidingBomb = nullptr;
 
         static Image ** stoneImages;
 
-        uint maxDurability, durability, spritesQuantity;
+        int maxDurability, durability, spritesQuantity;
         float spriteSize;
     public:
-        Stone(uint maxDurability);
-        Stone(uint maxDurability, Object * dropingItem);
+        Stone(int maxDurability);
+        Stone(int maxDurability, Object * dropingItem);
         ~Stone();
 
-        uint Durability();
-        uint MaxDurability();
+        int Durability();
+        int MaxDurability();
 
         float SpriteSize();
         bool IsBroken();
 
-        void Destroy();
         void DecreaseDurability();
+        void DecreaseDurabilityByMaxPercentage(float percentage);
         void OnCollision(Object * obj);
 
         void Update();
         void Draw();
 };
 
-inline uint Stone::Durability() { return durability; }
-inline uint Stone::MaxDurability() { return maxDurability; }
+inline int Stone::Durability() { return durability; }
+inline int Stone::MaxDurability() { return maxDurability; }
 
 inline float Stone::SpriteSize() { return spriteSize; }
-
 inline void Stone::DecreaseDurability() { if(durability > 0) durability--; }
-inline void Stone::Destroy() { durability = 0; }
+
 inline bool Stone::IsBroken() { return durability == 0; }
 
 #endif

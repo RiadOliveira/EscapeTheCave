@@ -55,17 +55,9 @@ Bomb::~Bomb() {
 }
 
 void Bomb::OnCollision(Object * obj) {
-    if(bombType == PLAYED) {
-        if(obj->Type() == STONE) StoneCollision(obj);
-        return;
+    if(bombType == GENERATED && obj->Type() == PLAYER) {
+        PlayerCollision(obj);
     }
-
-    if(obj->Type() == PLAYER) PlayerCollision(obj);
-}
-
-void Bomb::StoneCollision(Object * obj) {
-    Stone * stone = (Stone *) obj;
-    stone->Destroy();
 }
 
 void Bomb::PlayerCollision(Object * obj) {

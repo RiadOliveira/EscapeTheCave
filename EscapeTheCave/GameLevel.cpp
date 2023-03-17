@@ -82,7 +82,7 @@ void GameLevel::CreateLevelStoneOrPivot(
     bool isEscapePoint
 ) {
     if(isEscapePoint) {
-        Stone * stone = new Stone(level + 2, new Generator());
+        Stone * stone = new Stone(level + 1, new Generator());
         stone->MoveTo(positionX, positionY);
         scene->Add(stone, STATIC);
 
@@ -92,12 +92,13 @@ void GameLevel::CreateLevelStoneOrPivot(
 
     mt19937 gen(rd());
     uniform_int_distribution<> stoneTypeDis(0, 2);
-    bool isBrokenStone = stoneTypeDis(gen) == 0;
-
     uniform_int_distribution<> droppableItemDis(1, 100);
+
+    bool damagedStone = stoneTypeDis(gen) == 0;
+    int maxDurability = (level + 1)/(1 + damagedStone);
     Object * droppableItem = GenerateDroppableItem(droppableItemDis(gen));
 
-    Stone * stone = new Stone(level + 1 + !isBrokenStone, droppableItem);
+    Stone * stone = new Stone(maxDurability, droppableItem);
     stone->MoveTo(positionX, positionY);
     scene->Add(stone, STATIC);
 }
@@ -126,15 +127,15 @@ void GameLevel::RenderLevelStonesAndPivots() {
 }
 
 void GameLevel::Init() {
+    level++;
     scene = new Scene();
     backg = new Sprite("Resources/LevelBackground.png");
 
     if(player == nullptr) player = new Player();
-    else player->ResetDataToNewLevel(level + 1);
+    else player->ResetDataToNewLevel(level);
 
     player->AddToScene();
     RenderLevelStonesAndPivots();
-    level++;
 }
 
 void GameLevel::Finalize() {
