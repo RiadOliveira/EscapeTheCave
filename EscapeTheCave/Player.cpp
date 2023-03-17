@@ -22,7 +22,7 @@ Player::Player():
     float boxCoord = spriteSize/2;
 
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
-    MoveTo(window->CenterX(), window->CenterY());
+    MoveTo(window->CenterX() + 1, window->CenterY());
     type = PLAYER;
 }
 
@@ -43,7 +43,7 @@ void Player::ResetDataToNewLevel(int levelBombsQuantity) {
     radar->ResetDataToNewLevel();
     bombsQuantity = levelBombsQuantity;
 
-    MoveTo(window->CenterX(), window->CenterY());
+    MoveTo(window->CenterX() + 1, window->CenterY());
 }
 
 void Player::AddToScene() {

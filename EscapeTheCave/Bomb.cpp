@@ -91,7 +91,7 @@ void Bomb::Update() {
     }
 
     if(elapsed >= 2.0f) {
-        BBox(new Circle(bombType == PLAYED ? 180.0f : 120.0f));
+        BBox(new Circle(bombType == PLAYED ? 180.0f : 179.0f));
         selectedSpriteState = EXPLODED;
 
         hasExploded = true;

@@ -24,7 +24,7 @@ void Generator::OnCollision(Object * obj) {
         timer->Start();
         return;
     }
-    if(timer->Elapsed() <= 1.0f) return;
+    if(timer->Elapsed() <= 0.5f) return;
 
     Player * player = (Player *) obj;
     player->PlayerHasEscaped(true);

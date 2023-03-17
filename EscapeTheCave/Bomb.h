@@ -29,6 +29,8 @@ class Bomb : public Object {
         Bomb(BOMBTYPE bombType);
         ~Bomb();
 
+        BOMBTYPE BombType();
+    
         void OnCollision(Object * obj);
         void StoneCollision(Object * obj);
         void PlayerCollision(Object * obj);
@@ -36,5 +38,7 @@ class Bomb : public Object {
         void Update();
         void Draw();
 };
+
+inline BOMBTYPE Bomb::BombType() { return bombType; }
 
 #endif

@@ -46,7 +46,7 @@ inline void Battery::DecreaseEnergyBar() {
 }
 
 inline void Battery::BuffBatteryBarTime() {
-    timeOfOneBatteryBar += 2.0f;
+    timeOfOneBatteryBar += 0.5f;
 }
 
 inline float Battery::GetXPosition() {
