@@ -10,13 +10,15 @@ Stone::Stone(uint maxDurability):
     maxDurability(maxDurability), durability(maxDurability)
 {
     if(stoneImages == nullptr) {
-        Image * completeStoneImg = new Image("Resources/Stone/CompleteStone.png");
-        Image * brokenStoneImg = new Image("Resources/Stone/BrokenStone.png");
+        Image* stone0 = new Image("Resources/Stone/Stone0.png");
+        Image* stone1 = new Image("Resources/Stone/Stone1.png");
+        Image* stone2 = new Image("Resources/Stone/Stone2.png");
+        Image* stone3 = new Image("Resources/Stone/Stone3.png");
 
-        stoneImages = new Image*[2]{brokenStoneImg, completeStoneImg};
+        stoneImages = new Image*[4]{stone0, stone1, stone2, stone3};
     }
 
-    spritesQuantity = maxDurability > 1 ? 2 : 1;
+    spritesQuantity = maxDurability > 4 ? 4 : maxDurability;
     sprites = new Sprite*[spritesQuantity];
     for(uint ind=0 ; ind<spritesQuantity ; ind++) {
         sprites[ind] = new Sprite(stoneImages[ind]);
@@ -60,5 +62,9 @@ void Stone::Update() {
 
 void Stone::Draw() {
     if(durability == 0) return;
-    sprites[durability > 1]->Draw(x, y, Layer::UPPER);
+
+    float durabilityProportion = (float) durability / (float) maxDurability;
+    int spritePosition = durabilityProportion * (spritesQuantity - 1);
+
+    sprites[spritePosition]->Draw(x, y, Layer::UPPER);
 }
