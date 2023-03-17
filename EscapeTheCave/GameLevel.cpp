@@ -128,9 +128,19 @@ void GameLevel::RenderLevelStonesAndPivots() {
 
 void GameLevel::Init() {
     level++;
-    scene = new Scene();
     backg = new Sprite("Resources/LevelBackground.png");
 
+    bombButtonIcons = new Sprite*[2] {
+        new Sprite("Resources/ButtonsIcons/NoBombsIcon.png"),
+        new Sprite("Resources/ButtonsIcons/BombsIcon.png")
+    };
+
+    radarButtonIcons = new Sprite*[2] {
+        new Sprite("Resources/ButtonsIcons/NoRadarIcon.png"),
+        new Sprite("Resources/ButtonsIcons/RadarIcon.png")
+    };
+
+    scene = new Scene();
     if(player == nullptr) player = new Player();
     else player->ResetDataToNewLevel(level);
 
@@ -140,6 +150,14 @@ void GameLevel::Init() {
 
 void GameLevel::Finalize() {
     delete backg;
+
+    for(int ind=0 ; ind<2 ; ind++) {
+        delete bombButtonIcons[ind];
+        delete radarButtonIcons[ind];
+    }
+    delete[] bombButtonIcons;
+    delete[] radarButtonIcons;
+
     player->RemoveFromScene();
     delete scene;
 }
@@ -163,7 +181,17 @@ void GameLevel::Update() {
 
 void GameLevel::Draw() {
     backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
-    scene->Draw();
 
+    float buttonIconsHeight = window->Height() - 56.0f;
+    bombButtonIcons[player->HasBombs()]->Draw(
+        window->CenterX() - 44.0f, buttonIconsHeight,
+        Layer::FRONT
+    );
+    radarButtonIcons[!player->RadarIsOnCooldown()]->Draw(
+        window->CenterX() + 44.0f, buttonIconsHeight,
+        Layer::FRONT
+    );
+
+    scene->Draw();
     if (viewBBox) scene->DrawBBox();
 }

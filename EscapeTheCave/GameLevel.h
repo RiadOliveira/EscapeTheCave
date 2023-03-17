@@ -14,6 +14,8 @@ class GameLevel : public Game {
         static const uint objectDefaultWidth = 120;
 
         Sprite * backg = nullptr;
+        Sprite ** bombButtonIcons = nullptr;
+        Sprite ** radarButtonIcons = nullptr;
         bool viewBBox = false;
 
         static Player* player;

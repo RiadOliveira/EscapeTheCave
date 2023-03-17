@@ -46,7 +46,10 @@ inline void Battery::RechargeBattery() {
 }
 
 inline void Battery::DecreaseEnergyBar() {
-    if(energy <= 0.0f || selectedSpriteIndex <= 0) return;
+    if(selectedSpriteIndex <= 0) {
+        energy = 0.0f;
+        return;
+    }
 
     energy -= energyOfOneBatteryBar;
     selectedSpriteIndex--;

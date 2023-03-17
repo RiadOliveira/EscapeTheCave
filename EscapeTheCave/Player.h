@@ -54,6 +54,9 @@ class Player : public Object {
         float BatteryEnergy();
         PLAYERSTATE State();
 
+        int HasBombs();
+        bool RadarIsOnCooldown();
+
         void OnCollision(Object * obj);
         void StoneCollision(Object * obj);
 
@@ -80,5 +83,8 @@ inline float Player::SpriteSize() { return spriteSize; }
 inline PLAYERSTATE Player::State() { return state; }
 
 inline float Player::BatteryEnergy() { return battery->Energy(); }
+
+inline int Player::HasBombs() { return bombsQuantity > 0; }
+inline bool Player::RadarIsOnCooldown() { return radar->IsOnCooldown(); }
 
 #endif

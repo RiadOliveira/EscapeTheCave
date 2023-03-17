@@ -22,6 +22,8 @@ class Radar : public Object {
         Radar();
         ~Radar();
 
+        bool IsOnCooldown();
+
         void ActivateRadar();
         void ResetDataToNewLevel();
         void OnCollision(Object * obj);
@@ -29,5 +31,7 @@ class Radar : public Object {
         void Update();
         void Draw();
 };
+
+inline bool Radar::IsOnCooldown() { return radarDirection != DISABLED; }
 
 #endif
