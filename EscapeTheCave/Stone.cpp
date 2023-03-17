@@ -66,5 +66,5 @@ void Stone::Draw() {
     float durabilityProportion = (float) durability / (float) maxDurability;
     int spritePosition = durabilityProportion * (spritesQuantity - 1);
 
-    sprites[spritePosition]->Draw(x, y, Layer::UPPER);
+    sprites[spritePosition]->Draw(x, y, Layer::LOWER);
 }

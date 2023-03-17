@@ -64,7 +64,8 @@ void Radar::Update() {
         return;
     }
 
-    if(elapsed >= previousElapsedTime + 0.5f) {
+    float elapsedDifference = showingRadar ? 0.5f : 0.3f;
+    if (elapsed >= previousElapsedTime + elapsedDifference) {
         previousElapsedTime = elapsed;
         showingRadar = !showingRadar;
     }
@@ -88,6 +89,6 @@ void Radar::Draw() {
     }
 
     if(showingRadar) {
-        sprites[radarDirection]->Draw(positionX, positionY, Layer::UPPER);
+        sprites[radarDirection]->Draw(positionX, positionY, Layer::FRONT);
     }
 }
