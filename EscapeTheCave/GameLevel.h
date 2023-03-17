@@ -18,8 +18,9 @@ class GameLevel : public Game {
 
         static Player* player;
         static Scene* scene;
+        static int* escapePoint;
 
-        int * GetEscapePoint();
+        int* GenerateEscapePoint();
         bool HasCreatedPivot(float positionX, float positionY);
 
         Object * GenerateDroppableItem(int generatedNumber);
@@ -31,6 +32,7 @@ class GameLevel : public Game {
     public:
         static Player* &GetPlayer();
         static Scene* &GetScene();
+        static int* &GetEscapePoint();
 
         void Init();
         void Update();
@@ -40,5 +42,6 @@ class GameLevel : public Game {
 
 inline Player* &GameLevel::GetPlayer() { return player; }
 inline Scene* &GameLevel::GetScene() { return scene; }
+inline int* &GameLevel::GetEscapePoint() { return escapePoint; }
 
 #endif

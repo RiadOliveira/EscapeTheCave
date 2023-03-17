@@ -5,17 +5,15 @@
 #include "Object.h"
 #include "Sprite.h"
 #include "Battery.h"
+#include "Radar.h"
 
-enum PLAYERSTATE {UP, DOWN, LEFT, RIGHT, NONE};    
+enum PLAYERSTATE { UP, DOWN, LEFT, RIGHT, NONE };
 
 class Player : public Object {
     private:
         Battery * battery = nullptr;
-
-        Sprite * spriteUp = nullptr;
-        Sprite * spriteDown = nullptr;
-        Sprite * spriteLeft = nullptr;
-        Sprite * spriteRight = nullptr;
+        Radar * radar = nullptr;
+        Sprite ** sprites = nullptr;
 
         float spriteSize;
         float speed;
@@ -29,11 +27,14 @@ class Player : public Object {
         void HandleMovePlayer(PLAYERSTATE updatedState);
         void VerifyAndMovePlayerIfExceededWindow();
     public:
-        Player(Battery * battery);
+        Player();
         ~Player();
 
         Battery * GetBattery();
         void ResetDataToNewLevel(int levelBombsQuantity);
+
+        void AddToScene();
+        void RemoveFromScene();
 
         void BuffSpeed();
         void BuffMiningSpeed();

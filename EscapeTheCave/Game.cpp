@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Scene.h"
 
-uint      Game::level    = 0;
+int       Game::level    = -1;
 Window* & Game::window   = Engine::window;
 float   & Game::gameTime = Engine::frameTime;
 

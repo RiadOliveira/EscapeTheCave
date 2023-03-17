@@ -16,10 +16,11 @@
 using std::mt19937;
 using std::uniform_int_distribution;
 
+int* GameLevel::escapePoint = nullptr;
 Player* GameLevel::player = nullptr;
 Scene*  GameLevel::scene  = nullptr;
 
-int * GameLevel::GetEscapePoint() {
+int* GameLevel::GenerateEscapePoint() {
     mt19937 gen(rd());
     uniform_int_distribution<> dis(0, 1);
 
@@ -100,10 +101,10 @@ void GameLevel::CreateLevelStoneOrPivot(
 }
 
 void GameLevel::RenderLevelStonesAndPivots() {
+    escapePoint = GenerateEscapePoint();
     int stoneWidth = objectDefaultWidth;
     int stoneHalfWidth = stoneWidth/2;
 
-    int * escapePoint = GetEscapePoint();
     for(
         int xInd = stoneHalfWidth ;
         xInd <= window->Width() - stoneHalfWidth ;
@@ -126,24 +127,17 @@ void GameLevel::Init() {
     scene = new Scene();
     backg = new Sprite("Resources/LevelBackground.jpg");
 
-    if(player == nullptr) {
-        Battery * battery = new Battery();
-        player = new Player(battery);
-    } else player->ResetDataToNewLevel(level + 1);
+    if(player == nullptr) player = new Player();
+    else player->ResetDataToNewLevel(level + 1);
 
-    scene->Add(player, MOVING);
-    scene->Add(new MiningPoint(), MOVING);
-    scene->Add(player->GetBattery(), STATIC);
-    
+    player->AddToScene();
     RenderLevelStonesAndPivots();
+    level++;
 }
 
 void GameLevel::Finalize() {
-    level++;
-
     delete backg;
-    scene->Remove(player, MOVING);
-    scene->Remove(player->GetBattery(), STATIC);
+    player->RemoveFromScene();
     delete scene;
 }
 

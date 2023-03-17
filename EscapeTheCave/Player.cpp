@@ -3,39 +3,64 @@
 #include "Stone.h"
 #include "Bomb.h"
 #include "GameLevel.h"
+#include "MiningPoint.h"
 
-Player::Player(Battery * battery):
-    state(RIGHT), bombsQuantity(1), battery(battery),
-    playerHasEscaped(false), speed(120.0f), miningSpeed(0.5f)
+Player::Player():
+    state(RIGHT), battery(new Battery()), radar(new Radar()),
+    bombsQuantity(1), playerHasEscaped(false),
+    speed(120.0f), miningSpeed(0.5f)
 {
-    spriteUp = new Sprite("Resources/Player/PlayerUp.png");
-    spriteDown = new Sprite("Resources/Player/PlayerDown.png");
-    spriteLeft = new Sprite("Resources/Player/PlayerLeft.png");
-    spriteRight = new Sprite("Resources/Player/PlayerRight.png");
-    
-    spriteSize = (float) spriteUp->Width();
+    string spritesPath = "Resources/Player";
+    sprites = new Sprite*[4];
+
+    sprites[UP] = new Sprite(spritesPath + "/PlayerUp.png");
+    sprites[DOWN] = new Sprite(spritesPath + "/PlayerDown.png");
+    sprites[LEFT] = new Sprite(spritesPath + "/PlayerLeft.png");
+    sprites[RIGHT] = new Sprite(spritesPath + "/PlayerRight.png");
+
+    spriteSize = (float) sprites[UP]->Width();
     float boxCoord = spriteSize/2;
 
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
-    MoveTo(window->CenterX() + 1, window->CenterY());
+    MoveTo(window->CenterX(), window->CenterY());
     type = PLAYER;
+}
+
+Player::~Player() {
+    for(int ind=0 ; ind<4 ; ind++) {
+        delete sprites[ind];
+    }
+    delete[] sprites;
+
+    delete battery;
+    delete radar;
 }
 
 void Player::ResetDataToNewLevel(int levelBombsQuantity) {
     state = RIGHT;
     playerHasEscaped = false;
     battery->ResetDataToNewLevel();
+    radar->ResetDataToNewLevel();
     bombsQuantity = levelBombsQuantity;
 
-    MoveTo(window->CenterX() + 1, window->CenterY());
+    MoveTo(window->CenterX(), window->CenterY());
 }
 
-Player::~Player() {
-    delete spriteUp;
-    delete spriteDown;
-    delete spriteLeft;
-    delete spriteRight;
-    delete battery;
+void Player::AddToScene() {
+    Scene * &scene = GameLevel::GetScene();
+
+    scene->Add(this, MOVING);
+    scene->Add(battery, STATIC);
+    scene->Add(radar, STATIC);
+    scene->Add(new MiningPoint(), MOVING);
+}
+
+void Player::RemoveFromScene() {
+    Scene * &scene = GameLevel::GetScene();
+
+    scene->Remove(this, MOVING);
+    scene->Remove(battery, STATIC);
+    scene->Remove(radar, STATIC);
 }
 
 void Player::OnCollision(Object * obj) {
@@ -140,13 +165,10 @@ void Player::Update() {
         playerBomb->MoveTo(x, y);
         GameLevel::GetScene()->Add(playerBomb, MOVING);
     }
+
+    if(window->KeyPress('X')) radar->ActivateRadar();
 }
 
 void Player::Draw() {
-    switch(state) {
-        case UP: spriteUp->Draw(x, y, Layer::UPPER); break;
-        case DOWN: spriteDown->Draw(x, y, Layer::UPPER); break;
-        case LEFT: spriteLeft->Draw(x, y, Layer::UPPER); break;
-        case RIGHT: spriteRight->Draw(x, y, Layer::UPPER);
-    }
+    if(state != NONE) sprites[state]->Draw(x, y, Layer::UPPER);
 }

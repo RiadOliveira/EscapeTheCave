@@ -15,7 +15,6 @@ Battery::Battery(): energy(maxEnergy), timeOfOneBatteryBar(4.0f) {
 
     selectedSpriteIndex = spritesQuantity - 1;
     energyOfOneBatteryBar = maxEnergy / (spritesQuantity - 1);
-    MoveTo(GetXPosition(), GetYPosition());
 
     timer = new Timer();
     timer->Start();
