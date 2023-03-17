@@ -3,7 +3,7 @@
 
 const float Battery::maxEnergy = 100.0f;
 
-Battery::Battery(): energy(maxEnergy) {
+Battery::Battery(): energy(maxEnergy), timeOfOneBatteryBar(4.0f) {
     sprites = new Sprite*[spritesQuantity];
     string spritesPath = "Resources/Battery/Battery";
 
@@ -28,10 +28,11 @@ void Battery::ResetDataToNewLevel() {
 }
 
 Battery::~Battery() {
+    delete timer;
+    
     for(int ind=0 ; ind<spritesQuantity ; ind++) {
         delete sprites[ind];
     }
-
     delete[] sprites;
 }
 
@@ -40,13 +41,12 @@ void Battery::OnCollision(Object * obj) {
 
 void Battery::Update() {
     if(selectedSpriteIndex == 0) {
-        if(timer->Elapsed() >= 2.0f) energy = 0.0f;
+        if(timer->Elapsed() >= timeOfOneBatteryBar/2) energy = 0.0f;
         return;
     }
-    if(timer->Elapsed() < 4.0f) return;
+    if(timer->Elapsed() < timeOfOneBatteryBar) return;
 
-    energy -= energyOfOneBatteryBar;
-    selectedSpriteIndex--;
+    DecreaseEnergyBar();
     timer->Reset();
 }
 

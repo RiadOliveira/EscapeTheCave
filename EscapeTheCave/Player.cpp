@@ -21,10 +21,11 @@ Player::Player(Battery * battery):
     type = PLAYER;
 }
 
-void Player::ResetDataToNewLevel() {
+void Player::ResetDataToNewLevel(int levelBombsQuantity) {
     state = RIGHT;
     playerHasEscaped = false;
     battery->ResetDataToNewLevel();
+    bombsQuantity = levelBombsQuantity;
 
     MoveTo(window->CenterX() + 1, window->CenterY());
 }

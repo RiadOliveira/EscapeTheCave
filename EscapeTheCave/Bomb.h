@@ -13,14 +13,18 @@ class Bomb : public Object {
         float previousElapsedTime;
 
         BOMBSTATES selectedSpriteState;
-        bool hasExploded;
+        bool hasExploded, hasDecreasedPlayerEnergy;
         BOMBTYPE bombType;
 
-        static Image * explosionImage;
-        static Image ** bombImages;
+        static Image * playedExplosionImage;
+        static Image ** playedBombImages;
+        static Image * generatedExplosionImage;
+        static Image ** generatedBombImages;
 
         Timer * timer = nullptr;
         Sprite ** sprites = nullptr;
+
+        void SetBombsAndExplosionImages();
     public:
         Bomb(BOMBTYPE bombType);
         ~Bomb();

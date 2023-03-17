@@ -1,11 +1,12 @@
 #include "MiningPoint.h"
 #include "EscapeTheCave.h"
 #include "Stone.h"
-#include "Game.h"
+#include "GameLevel.h"
 #include "Engine.h"
 
-MiningPoint::MiningPoint(Player * player): 
-    player(player), previousState(player->State()),
+MiningPoint::MiningPoint(): 
+    player(GameLevel::GetPlayer()),
+    previousState(player->State()),
     distanceToPlayer(player->SpriteSize()/2 + 16.0f)
 {
     BBox(new Point(player->X(), player->Y()));
@@ -14,6 +15,7 @@ MiningPoint::MiningPoint(Player * player):
 }
 
 MiningPoint::~MiningPoint() {
+    delete breakTimer;
 }
 
 void MiningPoint::OnCollision(Object * obj) {
@@ -32,7 +34,7 @@ void MiningPoint::StoneCollision(Object * obj) {
 
     float elapsed = breakTimer->Elapsed();
     if(elapsed <= 0.0f) breakTimer->Start();
-    else if(elapsed >= 0.5f) {
+    else if(elapsed >= player->MiningSpeed()) {
         stone->DecreaseDurability();
         breakTimer->Reset();
 

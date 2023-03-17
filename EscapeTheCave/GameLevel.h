@@ -22,13 +22,15 @@ class GameLevel : public Game {
         int * GetEscapePoint();
         bool HasCreatedPivot(float positionX, float positionY);
 
+        Object * GenerateDroppableItem(int generatedNumber);
         void RenderLevelStonesAndPivots();
         void CreateLevelStoneOrPivot(
             float positionX, float positionY,
             bool isEscapePoint
         );
     public:
-        static Scene* GetScene();
+        static Player* &GetPlayer();
+        static Scene* &GetScene();
 
         void Init();
         void Update();
@@ -36,6 +38,7 @@ class GameLevel : public Game {
         void Finalize();
 };
 
-inline Scene* GameLevel::GetScene() { return scene; }
+inline Player* &GameLevel::GetPlayer() { return player; }
+inline Scene* &GameLevel::GetScene() { return scene; }
 
 #endif

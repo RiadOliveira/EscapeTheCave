@@ -7,16 +7,16 @@
 
 class MiningPoint : public Object {
     private:
-        Timer * breakTimer;
-    
+        Player * &player;
+        
         float distanceToPlayer;
-        Player * player = nullptr;
+        Timer * breakTimer = nullptr;
         Stone * collidingStone = nullptr;
 
         PLAYERSTATE previousState;
         uint GetBorderColor();
     public:
-        MiningPoint(Player * player);
+        MiningPoint();
         ~MiningPoint();
 
         void OnCollision(Object * obj);

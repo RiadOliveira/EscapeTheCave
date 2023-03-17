@@ -33,11 +33,16 @@ class Player : public Object {
         ~Player();
 
         Battery * GetBattery();
-        void ResetDataToNewLevel();
+        void ResetDataToNewLevel(int levelBombsQuantity);
+
+        void BuffSpeed();
+        void BuffMiningSpeed();
+        void BuffBatteryTime();
 
         bool PlayerHasEscaped();
         void PlayerHasEscaped(bool hasEscaped);
 
+        float MiningSpeed();
         float SpriteSize();
         float BatteryEnergy();
         PLAYERSTATE State();
@@ -49,6 +54,13 @@ class Player : public Object {
         void Draw();
 };
 
+inline void Player::BuffSpeed() { speed += 10; }
+inline void Player::BuffBatteryTime() { battery->BuffBatteryBarTime(); }
+inline void Player::BuffMiningSpeed() {
+    miningSpeed -= 0.05f;
+    if(miningSpeed <= 0.0f) miningSpeed = 0.0f;
+}
+
 inline Battery* Player::GetBattery() { return battery; }
 
 inline bool Player::PlayerHasEscaped() { return playerHasEscaped; }
@@ -56,6 +68,7 @@ inline void Player::PlayerHasEscaped(bool hasEscaped) {
     playerHasEscaped = hasEscaped;
 }
 
+inline float Player::MiningSpeed() { return miningSpeed; }
 inline float Player::SpriteSize() { return spriteSize; }
 inline PLAYERSTATE Player::State() { return state; }
 

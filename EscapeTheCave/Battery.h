@@ -15,6 +15,7 @@ class Battery : public Object {
         Sprite ** sprites = nullptr;
         uint selectedSpriteIndex;
 
+        float timeOfOneBatteryBar;
         float energyOfOneBatteryBar;
         float energy;
 
@@ -24,7 +25,10 @@ class Battery : public Object {
         Battery();
         ~Battery();
 
+        void DecreaseEnergyBar();
+        void BuffBatteryBarTime();
         void ResetDataToNewLevel();
+
         float Energy();
         float MaxEnergy();
 
@@ -33,6 +37,17 @@ class Battery : public Object {
         void Update();
         void Draw();
 };
+
+inline void Battery::DecreaseEnergyBar() {
+    if(energy <= 0.0f || selectedSpriteIndex <= 0) return;
+
+    energy -= energyOfOneBatteryBar;
+    selectedSpriteIndex--;
+}
+
+inline void Battery::BuffBatteryBarTime() {
+    timeOfOneBatteryBar += 2.0f;
+}
 
 inline float Battery::GetXPosition() {
     return 16.0f + sprites[selectedSpriteIndex]->Width()/2;

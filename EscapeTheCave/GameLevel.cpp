@@ -8,13 +8,16 @@
 #include "MiningPoint.h"
 #include "Bomb.h"
 #include "Generator.h"
+#include "BatteryBuff.h"
+#include "SpeedBuff.h"
+#include "MiningBuff.h"
 #include "random"
 
 using std::mt19937;
 using std::uniform_int_distribution;
 
-Player*   GameLevel::player   = nullptr;
-Scene*    GameLevel::scene    = nullptr;
+Player* GameLevel::player = nullptr;
+Scene*  GameLevel::scene  = nullptr;
 
 int * GameLevel::GetEscapePoint() {
     mt19937 gen(rd());
@@ -63,6 +66,14 @@ bool GameLevel::HasCreatedPivot(float positionX, float positionY) {
     return true;
 }
 
+Object * GameLevel::GenerateDroppableItem(int generatedNumber) {
+    if(generatedNumber <= 75) return nullptr;
+    if(generatedNumber <= 85) return new Bomb(GENERATED);
+    if(generatedNumber <= 90) return new SpeedBuff();
+    if(generatedNumber <= 95) return new MiningBuff();
+    return new BatteryBuff();
+}
+
 void GameLevel::CreateLevelStoneOrPivot(
     float positionX, float positionY,
     bool isEscapePoint
@@ -80,7 +91,10 @@ void GameLevel::CreateLevelStoneOrPivot(
     uniform_int_distribution<> stoneTypeDis(0, 2);
     bool isBrokenStone = stoneTypeDis(gen) == 0;
 
-    Stone * stone = new Stone(level + 1 + !isBrokenStone);
+    uniform_int_distribution<> droppableItemDis(1, 100);
+    Object * droppableItem = GenerateDroppableItem(droppableItemDis(gen));
+
+    Stone * stone = new Stone(level + 1 + !isBrokenStone, droppableItem);
     stone->MoveTo(positionX, positionY);
     scene->Add(stone, STATIC);
 }
@@ -115,10 +129,10 @@ void GameLevel::Init() {
     if(player == nullptr) {
         Battery * battery = new Battery();
         player = new Player(battery);
-    } else player->ResetDataToNewLevel();
+    } else player->ResetDataToNewLevel(level + 1);
 
     scene->Add(player, MOVING);
-    scene->Add(new MiningPoint(player), MOVING);
+    scene->Add(new MiningPoint(), MOVING);
     scene->Add(player->GetBattery(), STATIC);
     
     RenderLevelStonesAndPivots();
@@ -137,14 +151,10 @@ void GameLevel::Update() {
     if (window->KeyPress('B')) viewBBox = !viewBBox;
 
     if(player->BatteryEnergy() <= 0.0f) {
-        scene->Delete(player->GetBattery(), STATIC);
         scene->Delete(player, MOVING);
-
         Engine::Next<GameOver>();
     } else if (window->KeyPress(VK_ESCAPE)) {
-        scene->Delete(player->GetBattery(), STATIC);
         scene->Delete(player, MOVING);
-        
         Engine::Next<Home>();
     } else if (window->KeyPress('N') || player->PlayerHasEscaped()) {
         Engine::Next<GameLevel>();

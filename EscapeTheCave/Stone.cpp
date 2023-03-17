@@ -38,7 +38,7 @@ Stone::Stone(uint maxDurability, Object * dropingItem):
 Stone::~Stone() {
     if(dropingItem) {
         dropingItem->MoveTo(x, y);
-        GameLevel::GetScene()->Add(dropingItem, STATIC);
+        GameLevel::GetScene()->Add(dropingItem, MOVING);
     }
 
     Pivot * pivot = new Pivot();

@@ -5,36 +5,44 @@
 #include "Image.h"
 #include "GameLevel.h"
 
-Image * Bomb::explosionImage = nullptr;
-Image ** Bomb::bombImages = nullptr;
+Image * Bomb::playedExplosionImage = nullptr;
+Image ** Bomb::playedBombImages = nullptr;
+Image * Bomb::generatedExplosionImage = nullptr;
+Image ** Bomb::generatedBombImages = nullptr;
 
 Bomb::Bomb(BOMBTYPE bombType):
-    bombType(bombType), hasExploded(false),
+    bombType(bombType), hasExploded(false), hasDecreasedPlayerEnergy(false),
     selectedSpriteState(INITIAL), previousElapsedTime(0.0f)
 {
-    if(bombImages == nullptr) {
-        Image * initialBomb = new Image("Resources/Bomb/BombInitial.png");
-        Image * explodingBomb = new Image("Resources/Bomb/BombExploding.png");
+    SetBombsAndExplosionImages();
 
-        bombImages = new Image*[2]{ initialBomb, explodingBomb };
-    }
-
-    if(explosionImage == nullptr) {
-        explosionImage = new Image("Resources/Bomb/Explosion.png");
-    }
-
-
-    float boxCoord = (float) bombImages[0]->Width()/2;
+    float boxCoord = (float) playedBombImages[0]->Width()/2;
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
 
+    bool isPlayed = bombType == PLAYED;
     sprites = new Sprite*[3] {
-        new Sprite(bombImages[0]),
-        new Sprite(bombImages[1]),
-        new Sprite(explosionImage)
+        new Sprite(isPlayed ? playedBombImages[0] : generatedBombImages[0]),
+        new Sprite(isPlayed ? playedBombImages[1] : generatedBombImages[1]),
+        new Sprite(isPlayed ? playedExplosionImage : generatedExplosionImage)
     };
 
     timer = new Timer();
     type = BOMB;
+}
+
+void Bomb::SetBombsAndExplosionImages() {
+    if(playedExplosionImage != nullptr) return;
+
+    Image * playedBomb0 = new Image("Resources/Bomb/PlayedBomb0.png");
+    Image * playedBomb1 = new Image("Resources/Bomb/PlayedBomb1.png");
+    playedBombImages = new Image*[2]{ playedBomb0, playedBomb1 };
+
+    Image * generatedBomb0 = new Image("Resources/Bomb/GeneratedBomb0.png");
+    Image * generatedBomb1 = new Image("Resources/Bomb/GeneratedBomb1.png");
+    generatedBombImages = new Image*[2]{ generatedBomb0, generatedBomb1 };
+
+    playedExplosionImage = new Image("Resources/Bomb/PlayedExplosion.png");
+    generatedExplosionImage = new Image("Resources/Bomb/GeneratedExplosion.png");
 }
 
 Bomb::~Bomb() {
@@ -47,8 +55,12 @@ Bomb::~Bomb() {
 }
 
 void Bomb::OnCollision(Object * obj) {
-    if(obj->Type() == STONE && bombType == PLAYED) StoneCollision(obj);
-    else if(obj->Type() == PLAYER && bombType == GENERATED) PlayerCollision(obj);
+    if(bombType == PLAYED) {
+        if(obj->Type() == STONE) StoneCollision(obj);
+        return;
+    }
+
+    if(obj->Type() == PLAYER) PlayerCollision(obj);
 }
 
 void Bomb::StoneCollision(Object * obj) {
@@ -57,7 +69,13 @@ void Bomb::StoneCollision(Object * obj) {
 }
 
 void Bomb::PlayerCollision(Object * obj) {
+    if(!hasExploded || hasDecreasedPlayerEnergy) return;
+
     Player * player = (Player *) obj;
+    player->GetBattery()->DecreaseEnergyBar();
+    player->GetBattery()->DecreaseEnergyBar();
+    
+    hasDecreasedPlayerEnergy = true;
 }
 
 void Bomb::Update() {
@@ -89,5 +107,5 @@ void Bomb::Update() {
 }
 
 void Bomb::Draw() {
-    sprites[selectedSpriteState]->Draw(x, y, Layer::UPPER);
+    sprites[selectedSpriteState]->Draw(x, y, Layer::MIDDLE);
 }

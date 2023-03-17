@@ -245,7 +245,7 @@
   <ItemGroup>
     <ClCompile Include="Battery.cpp" />
     <ClCompile Include="Bomb.cpp" />
-    <ClCompile Include="DroppableBattery.cpp" />
+    <ClCompile Include="BatteryBuff.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EscapeTheCave.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -273,7 +273,7 @@
   <ItemGroup>
     <ClInclude Include="Battery.h" />
     <ClInclude Include="Bomb.h" />
-    <ClInclude Include="DroppableBattery.h" />
+    <ClInclude Include="BatteryBuff.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EscapeTheCave.h" />
     <ClInclude Include="Game.h" />

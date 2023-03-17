@@ -1,14 +1,14 @@
 #include "Image.h"
 #include "EscapeTheCave.h"
-#include "MiningBuff.h"
+#include "BatteryBuff.h"
 #include "Player.h"
 #include "GameLevel.h"
 
-Image * MiningBuff::image = nullptr;
+Image * BatteryBuff::image = nullptr;
 
-MiningBuff::MiningBuff(): hasToBeDestroyed(false) {
+BatteryBuff::BatteryBuff(): hasToBeDestroyed(false) {
     if(image == nullptr) {
-        image = new Image("Resources/Buffs/MiningBuff.png");
+        image = new Image("Resources/Buffs/BatteryBuff.png");
     }
 
     sprite = new Sprite(image);
@@ -17,11 +17,11 @@ MiningBuff::MiningBuff(): hasToBeDestroyed(false) {
     type = DROPPABLE_ITEM;
 }
 
-MiningBuff::~MiningBuff() {
+BatteryBuff::~BatteryBuff() {
     delete sprite;
 }
 
-void MiningBuff::OnCollision(Object * obj) {
+void BatteryBuff::OnCollision(Object * obj) {
     if(hasToBeDestroyed) return;
     bool isPlayer = obj->Type() == PLAYER;
     bool isBomb = obj->Type() == BOMB;
@@ -33,10 +33,10 @@ void MiningBuff::OnCollision(Object * obj) {
     if(isPlayer || isBomb) hasToBeDestroyed = true;
 }
 
-void MiningBuff::Update() {
+void BatteryBuff::Update() {
     if(hasToBeDestroyed) GameLevel::GetScene()->Delete();
 }
 
-void MiningBuff::Draw() {
+void BatteryBuff::Draw() {
     sprite->Draw(x, y, Layer::MIDDLE);
 }

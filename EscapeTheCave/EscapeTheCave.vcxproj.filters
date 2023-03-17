@@ -96,7 +96,7 @@
     <ClCompile Include="Generator.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="DroppableBattery.cpp">
+    <ClCompile Include="BatteryBuff.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="MiningBuff.cpp">
@@ -182,7 +182,7 @@
     <ClInclude Include="Generator.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="DroppableBattery.h">
+    <ClInclude Include="BatteryBuff.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="MiningBuff.h">
