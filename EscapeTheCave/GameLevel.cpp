@@ -69,7 +69,11 @@ bool GameLevel::HasCreatedPivot(float positionX, float positionY) {
 }
 
 Object * GameLevel::GenerateDroppableItem(int generatedNumber) {
-    if(generatedNumber <= 1) return new ChadBuff();
+    if(!hasGeneratedChadBuff && generatedNumber <= 1) {
+        hasGeneratedChadBuff = true;
+        return new ChadBuff();
+    }
+
     if(generatedNumber <= 75) return nullptr;
     if(generatedNumber <= 85) return new Bomb(GENERATED);
     if(generatedNumber <= 90) return new SpeedBuff();

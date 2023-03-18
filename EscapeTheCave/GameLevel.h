@@ -16,6 +16,8 @@ class GameLevel : public Game {
         Sprite * backg = nullptr;
         Sprite ** bombButtonIcons = nullptr;
         Sprite ** radarButtonIcons = nullptr;
+
+        bool hasGeneratedChadBuff = false;
         bool viewBBox = false;
 
         static Player* player;
