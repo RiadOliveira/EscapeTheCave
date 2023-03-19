@@ -4,7 +4,6 @@
 
 void GameOver::Init() {
     backg = new Sprite("Resources/GameOverScreen.jpg");
-    level = 0;
 }
 
 void GameOver::Finalize() {

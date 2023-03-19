@@ -144,10 +144,14 @@ void GameLevel::Init() {
         new Sprite("Resources/ButtonsIcons/RadarIcon.png")
     };
 
-    scene = new Scene();
+    if (level == 1) {
+        delete player;
+        player = nullptr;
+    }
     if(player == nullptr) player = new Player();
     else player->ResetDataToNewLevel(level);
 
+    scene = new Scene();
     player->AddToScene();
     RenderLevelStonesAndPivots();
 }
@@ -164,16 +168,18 @@ void GameLevel::Finalize() {
 
     player->RemoveFromScene();
     delete scene;
+    scene = nullptr;
+
+    delete escapePoint;
+    escapePoint = nullptr;
 }
 
 void GameLevel::Update() {
     if (window->KeyPress('B')) viewBBox = !viewBBox;
 
     if(player->BatteryEnergy() <= 0.0f) {
-        scene->Delete(player, MOVING);
         Engine::Next<GameOver>();
     } else if (window->KeyPress(VK_ESCAPE)) {
-        scene->Delete(player, MOVING);
         Engine::Next<Home>();
     } else if (window->KeyPress('N') || player->PlayerHasEscaped()) {
         Engine::Next<GameLevel>();
