@@ -13,8 +13,8 @@ ChadBuff::ChadBuff(): hasToBeDestroyed(false) {
     }
 
     sprite = new Sprite(image);
-    float xCoord = image->Width()/2;
-    float yCoord = image->Height()/2;
+    float xCoord = (float) image->Width()/2;
+    float yCoord = (float) image->Height()/2;
 
     BBox(new Rect(-xCoord, -yCoord, xCoord, yCoord));
     type = DROPPABLE_ITEM;

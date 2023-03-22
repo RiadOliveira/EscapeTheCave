@@ -57,7 +57,7 @@ Stone::~Stone() {
 
 void Stone::DecreaseDurabilityByMaxPercentage(float percentage) {
     if(durability == 0) return;
-    int durabilityReduction = ceil(percentage * (float) maxDurability);
+    int durabilityReduction = (int) ceil(percentage * (float) maxDurability);
 
     durability -= durabilityReduction;
     durability = durability <= 0 ? 0 : durability;
@@ -81,7 +81,7 @@ void Stone::Draw() {
     if(durability == 0) return;
 
     float durabilityProportion = (float) durability / (float) maxDurability;
-    int spritePosition = durabilityProportion * (spritesQuantity - 1);
+    int spritePosition = (int) (durabilityProportion * (spritesQuantity - 1));
 
     sprites[spritePosition]->Draw(x, y, Layer::LOWER);
 }

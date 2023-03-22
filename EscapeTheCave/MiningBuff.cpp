@@ -13,7 +13,7 @@ MiningBuff::MiningBuff(): hasToBeDestroyed(false) {
     }
 
     sprite = new Sprite(image);
-    float boxCoord = image->Width()/2;
+    float boxCoord = (float) image->Width()/2;
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
     type = DROPPABLE_ITEM;
 }
