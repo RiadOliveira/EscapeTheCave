@@ -3,6 +3,7 @@
 #include "Help.h"
 #include "GameLevel.h"
 #include "GameOver.h"
+#include "Victory.h"
 
 void Home::Init() {
     backg = new Sprite("Resources/TitleScreen.png");
@@ -18,6 +19,7 @@ void Home::Update() {
     if (window->KeyPress(VK_RETURN)) Engine::Next<GameLevel>();
     if (window->KeyPress('H')) Engine::Next<Help>();
     if (window->KeyPress('J')) Engine::Next<GameOver>();
+    if (window->KeyPress('K')) Engine::Next<Victory>();
 }
 
 void Home::Draw() {
