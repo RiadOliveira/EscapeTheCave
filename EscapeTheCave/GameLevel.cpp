@@ -144,7 +144,7 @@ void GameLevel::Init() {
         new Sprite("Resources/ButtonsIcons/RadarIcon.png")
     };
 
-    if (level == 1) {
+    if (player != nullptr && level == 1) {
         delete player;
         player = nullptr;
     }
