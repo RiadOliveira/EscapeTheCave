@@ -1,10 +1,10 @@
-#ifndef _ESCAPETHECAVE_HOME_H_
-#define _ESCAPETHECAVE_HOME_H_
+#ifndef _ESCAPETHECAVE_HELP_H_
+#define _ESCAPETHECAVE_HELP_H_
 
 #include "Game.h"
 #include "Sprite.h"
 
-class Home : public Game {
+class Help : public Game {
     private:
         Sprite * backg = nullptr;
     public:

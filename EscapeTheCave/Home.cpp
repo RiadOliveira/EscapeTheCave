@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Home.h"
+#include "Help.h"
 #include "GameLevel.h"
 
 void Home::Init() {
@@ -14,6 +15,7 @@ void Home::Finalize() {
 void Home::Update() {
     if (window->KeyPress(VK_ESCAPE)) window->Close();
     if (window->KeyPress(VK_RETURN)) Engine::Next<GameLevel>();
+    if (window->KeyPress('H')) Engine::Next<Help>();
 }
 
 void Home::Draw() {
