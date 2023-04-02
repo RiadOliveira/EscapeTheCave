@@ -7,7 +7,7 @@ Generator::Generator(int level): playerHasEscaped(false) {
     Image* generator = new Image("Resources/Generator.png");
     Image* escape = new Image("Resources/Escape.png");
 
-    if (level > 10) {
+    if (level < 10) {
         sprite = new Sprite(generator);
     }
     else {
