@@ -7,7 +7,7 @@ Generator::Generator(): playerHasEscaped(false) {
     sprite = new Sprite("Resources/Generator.png");
 
     float boxCoord = (float) sprite->Width()/2;
-    BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
+    BBox(new Rect((-boxCoord - 5), (-boxCoord - 5), (boxCoord - 5), (boxCoord - 5)));
 
     type = GENERATOR;
     timer = new Timer();
