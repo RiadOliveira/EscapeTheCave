@@ -13,7 +13,7 @@ class Generator : public Object {
         
         bool playerHasEscaped;
     public:
-        Generator();
+        Generator(int level);
         ~Generator();
 
         bool PlayerHasEscaped();

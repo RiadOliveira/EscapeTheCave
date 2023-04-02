@@ -3,8 +3,16 @@
 #include "Game.h"
 #include "EscapeTheCave.h"
 
-Generator::Generator(): playerHasEscaped(false) {
-    sprite = new Sprite("Resources/Generator.png");
+Generator::Generator(int level): playerHasEscaped(false) {
+    Image* generator = new Image("Resources/Generator.png");
+    Image* escape = new Image("Resources/Escape.png");
+
+    if (level > 10) {
+        sprite = new Sprite(generator);
+    }
+    else {
+        sprite = new Sprite(escape);
+    }
 
     float boxCoord = (float) sprite->Width()/2;
     BBox(new Rect((-boxCoord - 5), (-boxCoord - 5), (boxCoord - 5), (boxCoord - 5)));

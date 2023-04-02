@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Home.h"
 #include "GameOver.h"
+#include "Victory.h"
 #include "GameLevel.h"
 #include "Player.h"
 #include "Stone.h"
@@ -86,7 +87,7 @@ void GameLevel::CreateLevelStoneOrPivot(
     bool isEscapePoint
 ) {
     if(isEscapePoint) {
-        Stone * stone = new Stone(level + 1, new Generator());
+        Stone * stone = new Stone(level + 1, new Generator(level));
         stone->MoveTo(positionX, positionY);
         scene->Add(stone, STATIC);
 
@@ -132,46 +133,53 @@ void GameLevel::RenderLevelStonesAndPivots() {
 
 void GameLevel::Init() {
     level++;
-    backg = new Sprite("Resources/LevelBackground.png");
-
-    bombButtonIcons = new Sprite*[2] {
-        new Sprite("Resources/ButtonsIcons/NoBombsIcon.png"),
-        new Sprite("Resources/ButtonsIcons/BombsIcon.png")
-    };
-
-    radarButtonIcons = new Sprite*[2] {
-        new Sprite("Resources/ButtonsIcons/NoRadarIcon.png"),
-        new Sprite("Resources/ButtonsIcons/RadarIcon.png")
-    };
-
-    if (player != nullptr && level == 1) {
-        delete player;
-        player = nullptr;
+    if (level > 10) {
+        Engine::Next<Victory>();
     }
-    if(player == nullptr) player = new Player();
-    else player->ResetDataToNewLevel(level);
+    else {
+        backg = new Sprite("Resources/LevelBackground.png");
 
-    scene = new Scene();
-    player->AddToScene();
-    RenderLevelStonesAndPivots();
+        bombButtonIcons = new Sprite*[2] {
+            new Sprite("Resources/ButtonsIcons/NoBombsIcon.png"),
+            new Sprite("Resources/ButtonsIcons/BombsIcon.png")
+        };
+
+        radarButtonIcons = new Sprite*[2] {
+            new Sprite("Resources/ButtonsIcons/NoRadarIcon.png"),
+            new Sprite("Resources/ButtonsIcons/RadarIcon.png")
+        };
+
+        if (player != nullptr && level == 1) {
+            delete player;
+            player = nullptr;
+        }
+        if(player == nullptr) player = new Player();
+        else player->ResetDataToNewLevel(level);
+
+        scene = new Scene();
+        player->AddToScene();
+        RenderLevelStonesAndPivots();
+    }
 }
 
 void GameLevel::Finalize() {
-    delete backg;
+    if (level < 10) {
+        delete backg;
 
-    for(int ind=0 ; ind<2 ; ind++) {
-        delete bombButtonIcons[ind];
-        delete radarButtonIcons[ind];
+        for(int ind=0 ; ind<2 ; ind++) {
+            delete bombButtonIcons[ind];
+            delete radarButtonIcons[ind];
+        }
+        delete[] bombButtonIcons;
+        delete[] radarButtonIcons;
+
+        player->RemoveFromScene();
+        delete scene;
+        scene = nullptr;
+
+        delete escapePoint;
+        escapePoint = nullptr;
     }
-    delete[] bombButtonIcons;
-    delete[] radarButtonIcons;
-
-    player->RemoveFromScene();
-    delete scene;
-    scene = nullptr;
-
-    delete escapePoint;
-    escapePoint = nullptr;
 }
 
 void GameLevel::Update() {

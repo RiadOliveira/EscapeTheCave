@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include "Victory.h"
-#include "GameLevel.h"
 #include "Home.h"
+#include "GameLevel.h"
 
 void Victory::Init() {
     backg = new Sprite("Resources/VictoryScreen.png");
