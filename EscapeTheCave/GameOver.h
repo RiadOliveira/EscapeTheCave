@@ -7,6 +7,7 @@
 class GameOver : public Game {
     private:
         Sprite * backg = nullptr;
+        Sprite * XKV8_4_Off = nullptr;
     public:
         void Init();
         void Update();
