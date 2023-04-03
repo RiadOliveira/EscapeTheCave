@@ -6,23 +6,30 @@
 
 Image ** Stone::stoneImages = nullptr;
 
+void Stone::LoadStoneImages() {
+    if(stoneImages != nullptr) return;
+
+    Image* stone0 = new Image("Resources/Stone/Stone0.png");
+    Image* stone1 = new Image("Resources/Stone/Stone1.png");
+    Image* stone2 = new Image("Resources/Stone/Stone2.png");
+    Image* stone3 = new Image("Resources/Stone/Stone3.png");
+    Image* stone4 = new Image("Resources/Stone/Stone4.png");
+    Image* stone5 = new Image("Resources/Stone/Stone5.png");
+    Image* stone6 = new Image("Resources/Stone/Stone6.png");
+    Image* stone7 = new Image("Resources/Stone/Stone7.png");
+    Image* stone8 = new Image("Resources/Stone/Stone8.png");
+    Image* stone9 = new Image("Resources/Stone/Stone9.png");
+
+    stoneImages = new Image*[10]{
+        stone0, stone1, stone2, stone3, stone4,
+        stone5, stone6, stone7, stone8, stone9
+    };
+}
+
 Stone::Stone(int maxDurability):
     maxDurability(maxDurability), durability(maxDurability)
 {
-    if(stoneImages == nullptr) {
-        Image* stone0 = new Image("Resources/Stone/Stone0.png");
-        Image* stone1 = new Image("Resources/Stone/Stone1.png");
-        Image* stone2 = new Image("Resources/Stone/Stone2.png");
-        Image* stone3 = new Image("Resources/Stone/Stone3.png");
-        Image* stone4 = new Image("Resources/Stone/Stone4.png");
-        Image* stone5 = new Image("Resources/Stone/Stone5.png");
-        Image* stone6 = new Image("Resources/Stone/Stone6.png");
-        Image* stone7 = new Image("Resources/Stone/Stone7.png");
-        Image* stone8 = new Image("Resources/Stone/Stone8.png");
-        Image* stone9 = new Image("Resources/Stone/Stone9.png");
-
-        stoneImages = new Image*[10]{stone0, stone1, stone2, stone3, stone4, stone5, stone6, stone7, stone8, stone9};
-    }
+    LoadStoneImages();
 
     spritesQuantity = maxDurability > 10 ? 10 : maxDurability;
     sprites = new Sprite*[spritesQuantity];

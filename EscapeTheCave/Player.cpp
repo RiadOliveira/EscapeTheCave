@@ -6,6 +6,8 @@
 #include "MiningPoint.h"
 
 void Player::SetPlayerSprites() {
+    if(sprites != nullptr) return;
+
     string spritesPath = "Resources/Player";
     sprites = new Sprite*[4];
 
@@ -25,7 +27,6 @@ Player::Player():
     SetPlayerSprites();
 
     float boxCoord = spriteSize/2;
-
     BBox(new Rect(-boxCoord, -boxCoord, boxCoord, boxCoord));
     MoveTo(window->CenterX() + 1, window->CenterY());
     type = PLAYER;

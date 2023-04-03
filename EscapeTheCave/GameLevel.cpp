@@ -8,7 +8,7 @@
 #include "Pivot.h"
 #include "MiningPoint.h"
 #include "Bomb.h"
-#include "Generator.h"
+#include "EscapePoint.h"
 #include "BatteryBuff.h"
 #include "SpeedBuff.h"
 #include "MiningBuff.h"
@@ -87,7 +87,7 @@ void GameLevel::CreateLevelStoneOrPivot(
     bool isEscapePoint
 ) {
     if(isEscapePoint) {
-        Stone * stone = new Stone(level + 1, new Generator(level));
+        Stone * stone = new Stone(level + 1, new EscapePoint(level == 10));
         stone->MoveTo(positionX, positionY);
         scene->Add(stone, STATIC);
 
@@ -133,64 +133,57 @@ void GameLevel::RenderLevelStonesAndPivots() {
 
 void GameLevel::Init() {
     level++;
-    if (level > 10) {
-        Engine::Next<Victory>();
+    backg = new Sprite("Resources/LevelBackground.png");
+
+    bombButtonIcons = new Sprite*[2] {
+        new Sprite("Resources/ButtonsIcons/NoBombsIcon.png"),
+        new Sprite("Resources/ButtonsIcons/BombsIcon.png")
+    };
+    radarButtonIcons = new Sprite*[2] {
+        new Sprite("Resources/ButtonsIcons/NoRadarIcon.png"),
+        new Sprite("Resources/ButtonsIcons/RadarIcon.png")
+    };
+
+    if (player != nullptr && level == 1) {
+        delete player;
+        player = nullptr;
     }
-    else {
-        backg = new Sprite("Resources/LevelBackground.png");
+    if(player == nullptr) player = new Player();
+    else player->ResetDataToNewLevel(level);
 
-        bombButtonIcons = new Sprite*[2] {
-            new Sprite("Resources/ButtonsIcons/NoBombsIcon.png"),
-            new Sprite("Resources/ButtonsIcons/BombsIcon.png")
-        };
-
-        radarButtonIcons = new Sprite*[2] {
-            new Sprite("Resources/ButtonsIcons/NoRadarIcon.png"),
-            new Sprite("Resources/ButtonsIcons/RadarIcon.png")
-        };
-
-        if (player != nullptr && level == 1) {
-            delete player;
-            player = nullptr;
-        }
-        if(player == nullptr) player = new Player();
-        else player->ResetDataToNewLevel(level);
-
-        scene = new Scene();
-        player->AddToScene();
-        RenderLevelStonesAndPivots();
-    }
+    scene = new Scene();
+    player->AddToScene();
+    RenderLevelStonesAndPivots();
 }
 
 void GameLevel::Finalize() {
-    if (level < 10) {
-        delete backg;
+    delete backg;
 
-        for(int ind=0 ; ind<2 ; ind++) {
-            delete bombButtonIcons[ind];
-            delete radarButtonIcons[ind];
-        }
-        delete[] bombButtonIcons;
-        delete[] radarButtonIcons;
-
-        player->RemoveFromScene();
-        delete scene;
-        scene = nullptr;
-
-        delete escapePoint;
-        escapePoint = nullptr;
+    for(int ind=0 ; ind<2 ; ind++) {
+        delete bombButtonIcons[ind];
+        delete radarButtonIcons[ind];
     }
+    delete[] bombButtonIcons;
+    delete[] radarButtonIcons;
+
+    player->RemoveFromScene();
+    delete scene;
+    scene = nullptr;
+
+    delete escapePoint;
+    escapePoint = nullptr;
 }
 
 void GameLevel::Update() {
     if (window->KeyPress('B')) viewBBox = !viewBBox;
 
-    if(player->BatteryEnergy() <= 0.0f) {
+    if(window->KeyPress('J') || player->BatteryEnergy() <= 0.0f) {
         Engine::Next<GameOver>();
     } else if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
     } else if (window->KeyPress('N') || player->PlayerHasEscaped()) {
-        Engine::Next<GameLevel>();
+        if(level < 10) Engine::Next<GameLevel>();
+        else Engine::Next<Victory>();
     } else {
         scene->Update();
         scene->CollisionDetection();

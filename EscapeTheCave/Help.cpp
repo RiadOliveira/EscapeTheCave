@@ -3,10 +3,8 @@
 #include "Home.h"
 #include "GameLevel.h"
 
-
 void Help::Init() {
     backg = new Sprite("Resources/HelpScreen.png");
-    level = 0;
 }
 
 void Help::Finalize() {

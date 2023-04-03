@@ -18,8 +18,6 @@ void Home::Update() {
     if (window->KeyPress(VK_ESCAPE)) window->Close();
     if (window->KeyPress(VK_RETURN)) Engine::Next<GameLevel>();
     if (window->KeyPress('H')) Engine::Next<Help>();
-    if (window->KeyPress('J')) Engine::Next<GameOver>();
-    if (window->KeyPress('K')) Engine::Next<Victory>();
 }
 
 void Home::Draw() {

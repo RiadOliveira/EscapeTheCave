@@ -17,6 +17,8 @@ class Stone : public Object {
 
         int maxDurability, durability, spritesQuantity;
         float spriteSize;
+
+        void LoadStoneImages();
     public:
         Stone(int maxDurability);
         Stone(int maxDurability, Object * dropingItem);
