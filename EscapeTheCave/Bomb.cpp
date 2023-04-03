@@ -10,6 +10,21 @@ Image ** Bomb::playedBombImages = nullptr;
 Image * Bomb::generatedExplosionImage = nullptr;
 Image ** Bomb::generatedBombImages = nullptr;
 
+void Bomb::SetBombsAndExplosionImages() {
+    if(playedExplosionImage != nullptr) return;
+
+    Image * playedBomb0 = new Image("Resources/Bomb/PlayedBomb0.png");
+    Image * playedBomb1 = new Image("Resources/Bomb/PlayedBomb1.png");
+    playedBombImages = new Image*[2]{ playedBomb0, playedBomb1 };
+
+    Image * generatedBomb0 = new Image("Resources/Bomb/GeneratedBomb0.png");
+    Image * generatedBomb1 = new Image("Resources/Bomb/GeneratedBomb1.png");
+    generatedBombImages = new Image*[2]{ generatedBomb0, generatedBomb1 };
+
+    playedExplosionImage = new Image("Resources/Bomb/PlayedExplosion.png");
+    generatedExplosionImage = new Image("Resources/Bomb/GeneratedExplosion.png");
+}
+
 Bomb::Bomb(BOMBTYPE bombType):
     bombType(bombType), hasExploded(false), hasDecreasedPlayerEnergy(false),
     selectedSpriteState(INITIAL), previousElapsedTime(0.0f)
@@ -28,21 +43,6 @@ Bomb::Bomb(BOMBTYPE bombType):
 
     timer = new Timer();
     type = BOMB;
-}
-
-void Bomb::SetBombsAndExplosionImages() {
-    if(playedExplosionImage != nullptr) return;
-
-    Image * playedBomb0 = new Image("Resources/Bomb/PlayedBomb0.png");
-    Image * playedBomb1 = new Image("Resources/Bomb/PlayedBomb1.png");
-    playedBombImages = new Image*[2]{ playedBomb0, playedBomb1 };
-
-    Image * generatedBomb0 = new Image("Resources/Bomb/GeneratedBomb0.png");
-    Image * generatedBomb1 = new Image("Resources/Bomb/GeneratedBomb1.png");
-    generatedBombImages = new Image*[2]{ generatedBomb0, generatedBomb1 };
-
-    playedExplosionImage = new Image("Resources/Bomb/PlayedExplosion.png");
-    generatedExplosionImage = new Image("Resources/Bomb/GeneratedExplosion.png");
 }
 
 Bomb::~Bomb() {
@@ -83,7 +83,7 @@ void Bomb::Update() {
     }
 
     if(elapsed >= 2.0f) {
-        BBox(new Circle(bombType == PLAYED ? 180.0f : 179.0f));
+        BBox(new Circle(bombType == PLAYED ? 180.0f : 160.0f));
         selectedSpriteState = EXPLODED;
 
         hasExploded = true;
