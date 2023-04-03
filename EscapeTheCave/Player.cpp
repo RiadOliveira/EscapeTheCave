@@ -7,14 +7,19 @@
 
 void Player::SetPlayerSprites() {
     if(sprites != nullptr) return;
-
     string spritesPath = "Resources/Player";
-    sprites = new Sprite*[4];
 
+    sprites = new Sprite*[4];
     sprites[UP] = new Sprite(spritesPath + "/PlayerUp.png");
     sprites[DOWN] = new Sprite(spritesPath + "/PlayerDown.png");
     sprites[LEFT] = new Sprite(spritesPath + "/PlayerLeft.png");
     sprites[RIGHT] = new Sprite(spritesPath + "/PlayerRight.png");
+
+    gentleBotSprites = new Sprite*[4];
+    gentleBotSprites[UP] = new Sprite(spritesPath + "/GentleBotUp.png");
+    gentleBotSprites[DOWN] = new Sprite(spritesPath + "/GentleBotDown.png");
+    gentleBotSprites[LEFT] = new Sprite(spritesPath + "/GentleBotLeft.png");
+    gentleBotSprites[RIGHT] = new Sprite(spritesPath + "/GentleBotRight.png");
 
     spriteSize = (float) sprites[UP]->Width();
 }
@@ -35,10 +40,10 @@ Player::Player():
 Player::~Player() {
     for(int ind=0 ; ind<4 ; ind++) {
         delete sprites[ind];
-        if(gentleBotMode) delete gentleBotSprites[ind];
+        delete gentleBotSprites[ind];
     }
     delete[] sprites;
-    if(gentleBotMode) delete[] gentleBotSprites;
+    delete[] gentleBotSprites;
 
     delete battery;
     delete radar;
@@ -56,14 +61,6 @@ void Player::ResetDataToNewLevel(int levelBombsQuantity) {
 }
 
 void Player::ActivateGentleBotMode() {
-    gentleBotSprites = new Sprite*[4];
-    string spritesPath = "Resources/Player";
-
-    gentleBotSprites[UP] = new Sprite(spritesPath + "/GentleBotUp.png");
-    gentleBotSprites[DOWN] = new Sprite(spritesPath + "/GentleBotDown.png");
-    gentleBotSprites[LEFT] = new Sprite(spritesPath + "/GentleBotLeft.png");
-    gentleBotSprites[RIGHT] = new Sprite(spritesPath + "/GentleBotRight.png");
-
     battery->RechargeBattery();
     gentleBotMode = true;
 }
@@ -83,12 +80,6 @@ void Player::RemoveFromScene() {
     scene->Remove(this, MOVING);
     scene->Remove(battery, STATIC);
     scene->Remove(radar, STATIC);
-    if(!gentleBotMode) return;
-
-    for(int ind=0 ; ind<4 ; ind++) {
-        delete gentleBotSprites[ind];
-    }
-    delete[] gentleBotSprites;
 }
 
 void Player::OnCollision(Object * obj) {
